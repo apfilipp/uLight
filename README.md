@@ -1,5 +1,6 @@
 # uLight
 micro Light controller
+Code published as example use of LEVCAN libraries
 
 Used:
  - eclipse IDE 2019-06
