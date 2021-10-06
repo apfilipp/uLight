@@ -60,3 +60,4 @@ dkms.conf
 /Software/Release*
 /Software/Debug*
 /uLBoot/*
+/.hg*
