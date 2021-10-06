@@ -2,3 +2,7 @@
 	path = Software/LEVCAN
 	url = https://github.com/Nucular-tech/LEVCAN.git
 	branch = dev
+[submodule "Software/CTools-STM32"]
+	path = Software/CTools-STM32
+	url = https://github.com/Nucular-tech/CTools-STM32
+	branch = main

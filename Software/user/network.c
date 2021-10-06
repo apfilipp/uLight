@@ -80,7 +80,7 @@ void Network_Init(uint8_t node_id) {
 
 	LC_CreateNode(node_init);
 
-	PD_Root[0].Name = HWConfig.Name;
+	//PD_Root[0].Name = HWConfig.Name;
 	PD_About[0].Name = HWConfig.Name;
 	PD_About[1].TextData = (void*) &VersionControl.Date;
 	PD_About[2].TextData = (void*) &VersionControl.Version;
