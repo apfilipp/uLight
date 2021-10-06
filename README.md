@@ -1,6 +1,7 @@
 # uLight
 micro Light controller
 Code published as example use of LEVCAN libraries
+If you erased whole chip, flash Bootloader hex file from releases page
 
 Used:
  - eclipse IDE 2019-06
