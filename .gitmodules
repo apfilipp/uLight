@@ -1,7 +1,3 @@
-[submodule "LEVCAN"]
-	path = LEVCAN
-	url = https://github.com/Nucular-tech/LEVCAN.git
-	branch = dev
 [submodule "Software/LEVCAN"]
 	path = Software/LEVCAN
 	url = https://github.com/Nucular-tech/LEVCAN.git
