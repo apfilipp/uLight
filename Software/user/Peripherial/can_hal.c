@@ -36,6 +36,7 @@
 #endif
 #include "can_hal.h"
 
+// TYPEDEFS
 typedef struct {
 	LC_HeaderPacked_t Header;
 	uint32_t data[2];
@@ -46,7 +47,13 @@ enum {
 	FIFO0, FIFO1,
 };
 
-const float accuracy = 1.e-3;	// minimum required accuracy of the bit time
+//EXTERN FUNCTIONS
+extern void LC_ReceiveHandler(LC_NodeDescriptor_t *node, LC_HeaderPacked_t header, uint32_t *data, uint8_t length);
+#ifdef TRACE
+extern int trace_printf(const char *format, ...);
+#endif
+
+//PRIVATE FUNCTIONS
 uint8_t _getFreeTX();
 uint8_t _anyTX();
 void receiveIRQ(void);
@@ -55,11 +62,11 @@ void transmitIRQ(void);
 void txFifoProceed(void);
 #endif
 
-extern void LC_ReceiveHandler(LC_NodeDescriptor_t *node, LC_HeaderPacked_t header, uint32_t *data, uint8_t length);
-
-#ifdef TRACE
-extern int trace_printf(const char *format, ...);
-#endif
+//PRIVATE VARIABLES
+const float accuracy = 1.e-3;	// minimum required accuracy of the bit time
+volatile int CAN_ERR = 0;			
+												 
+	  
 
 #ifdef LEVCAN_USE_RTOS_QUEUE
 TaskHandle_t txCantask = 0;
@@ -72,6 +79,7 @@ volatile uint32_t txFIFO_out = 0;
 volatile can_packet_t txFIFO[LEVCAN_TX_SIZE];
 #endif
 
+//EXTERN VARIABLES
 void *LEVCAN_Node_Drv;
 
 /// Initialize CAN core using desired freq and bus freq
@@ -180,14 +188,14 @@ void CAN_Init(uint32_t BTR) {
 	//NVIC_EnableIRQ(CAN1_RX1_IRQn);
 	NVIC_SetPriority(CAN1_SCE_IRQn, 3);
 	NVIC_EnableIRQ(CAN1_SCE_IRQn);
-	NVIC_SetPriority(USB_HP_CAN1_TX_IRQn, 1);
+	NVIC_SetPriority(USB_HP_CAN1_TX_IRQn, 3);
 	NVIC_EnableIRQ(USB_HP_CAN1_TX_IRQn);
 
 #endif
 	//run CAN
 	CAN_Start();
 	CAN_FiltersClear();
-
+	
 #ifdef LEVCAN_USE_RTOS_QUEUE
 	txCanqueue = xQueueCreate(TXQUEUE_SIZE, sizeof(can_packet_t));
 	xTaskCreate(txCanTask, "ctx", configMINIMAL_STACK_SIZE, NULL, OS_PRIORITY_HIGH, &txCantask);
@@ -195,7 +203,7 @@ void CAN_Init(uint32_t BTR) {
 	txFIFO_in = 0;
 	txFIFO_out = 0;
 	memset((void*)&txFIFO, 0, sizeof(txFIFO));
-#endif																				 
+#endif		
 }
 
 /// Begin CAN operation
@@ -206,6 +214,7 @@ void CAN_Start(void) {
 
 	while ((CAN1->MSR & CAN_MSR_SLAK) != 0)
 		;
+	//TODO add timeout here to catch broken CAN driver
 	CAN1->MCR |= CAN_MCR_INRQ; //init can
 	while ((CAN1->MSR & CAN_MSR_INAK) == 0)
 		;
@@ -424,7 +433,7 @@ LC_Return_t CAN_Send(CAN_IR index, uint32_t *data, uint16_t length) {
 	index.ExtensionID = 1;
 #endif
 #ifdef CAN_ForceSTID
-	index.ExtensionID=0;
+	index.ExtensionID = 0;
 #endif
 	if (length > 8)
 		return LC_DataError;
@@ -520,7 +529,7 @@ uint8_t _anyTX() {
 	return ((~(CAN1->TSR)) & (CAN_TSR_TME0 | CAN_TSR_TME1 | CAN_TSR_TME2)) >> 26;
 }
 
-volatile int CAN_ERR = 0;
+						 
 void CAN1_SCE_IRQHandler(void) {
 	CAN1->MSR |= CAN_MSR_ERRI;
 	CAN_ERR = 1;
@@ -528,10 +537,6 @@ void CAN1_SCE_IRQHandler(void) {
 	//trace_printf("CAN bus RESET, error has occurred");
 }
 
-/*void CAN1_RX1_IRQHandler(void) {
- LC_ReceiveHandler();
-
- }*/
 
 LC_Return_t LC_HAL_Receive(LC_HeaderPacked_t *header, uint32_t *data, uint8_t *length) {
 	//Small hal overlay for converting LC header packed to CAN specific data
@@ -577,7 +582,7 @@ LC_Return_t LC_HAL_Send(LC_HeaderPacked_t header, uint32_t *data, uint8_t length
 }
 
 LC_Return_t LC_HAL_CreateFilterMasks(LC_HeaderPacked_t *reg, LC_HeaderPacked_t *mask, uint16_t count) {
-	//CAN_FiltersClear();
+	
 	CAN_FilterEditOn();
 
 	CAN_IR can_reg, can_mask;
@@ -600,21 +605,25 @@ LC_Return_t LC_HAL_CreateFilterMasks(LC_HeaderPacked_t *reg, LC_HeaderPacked_t *
 
 #if defined(STM32F405xx) || defined(STM32F446xx)
 void CAN1_RX0_IRQHandler(void) {
-	 receiveIRQ() ;
+	receiveIRQ();
 }
+/*void CAN1_RX1_IRQHandler(void) {
+	receiveIRQ();
+
+ }*/
 void CAN1_TX_IRQHandler(void) {
 	transmitIRQ();
 }
-#endif //STM32F405xx STM32F446xx
+#endif
 
 #if defined(STM32F10X_MD) || defined(STM32F30X)
 void USB_LP_CAN1_RX0_IRQHandler(void) {
-	receiveIRQ();
+	 receiveIRQ() ;
 }
 void USB_HP_CAN1_TX_IRQHandler(void) {
 	transmitIRQ();
 }
-#endif //STM32F10X_MD STM32F30X
+#endif
 
 #ifdef LEVCAN_USE_RTOS_QUEUE
 void txCanTask(void *pvParameters) {
@@ -682,6 +691,7 @@ void transmitIRQ(void) {
 	CAN1->TSR |= CAN_TSR_TXOK0 | CAN_TSR_TXOK1 | CAN_TSR_TXOK2;
 #endif
 }
+
 void receiveIRQ(void) {
 	CAN_IR rindex;
 	uint16_t rlength;
@@ -692,9 +702,7 @@ void receiveIRQ(void) {
 		LC_HeaderPacked_t header = { 0 };
 		header.ToUint32 = rindex.EXID; //29b
 		header.Request = rindex.Request; //30b
-		if(header.Target!=127){
-			__NOP();
-		}
+				
 		LC_ReceiveHandler(LEVCAN_Node_Drv, header, data, rlength);
 	}
 }

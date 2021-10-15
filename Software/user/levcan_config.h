@@ -64,7 +64,7 @@ extern void assert_failed(char *file, uint32_t line);
 
 #ifdef LEVCAN_MEM_STATIC
 //Maximum TX/RX objects. Excl. UDP data <=8byte, this receives in fast mode
-#define LEVCAN_OBJECT_SIZE 20
+#define LEVCAN_OBJECT_SIZE 30
 #else
 //external malloc functions
 #define lcmalloc pvPortMalloc
