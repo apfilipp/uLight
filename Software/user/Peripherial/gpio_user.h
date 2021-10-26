@@ -8,6 +8,8 @@
 
 #define PINSDEFINED
 
+#define ADC_AMP_Pin 0
+#define ADC_AMP_GPIO_Port GPIOA
 #define ADC_12V_Pin 1
 #define ADC_12V_GPIO_Port GPIOA
 #define ADC_T0_Pin 2

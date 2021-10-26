@@ -43,10 +43,20 @@ void delay_ms(uint32_t delay);
 
 //private variables
 volatile uint32_t SystemTick = 0;
+volatile uint32_t ADC_CLOCK;
 
 int main(int argc, char *argv[]) {
 	(void) argv;
 	(void) argc;
+	/*
+	 GD32
+	 CPUID 412FC231 DEVID 410
+	 Cortex M3 r2p1
+
+	 STM32
+	 CPUID 411FC231 DEVID 410
+	 Cortex M3 r1p1
+	 */
 
 	ARM_CheckAll();
 	HWInit();
@@ -76,7 +86,6 @@ int main(int argc, char *argv[]) {
 	}
 }
 
-
 void updateButtons(void) {
 	RD.Buttons.OffBt = 0;
 	RD.Buttons.OnBt = 1;
@@ -102,7 +111,15 @@ void RCC_user_init(void) {
 	RCC->AHBENR |= RCC_AHBENR_CRCEN | RCC_AHBENR_DMA1EN;
 	RCC->APB1ENR |= RCC_APB1ENR_CAN1EN | RCC_APB1ENR_TIM2EN | RCC_APB1ENR_TIM3EN | RCC_APB1ENR_TIM4EN;
 	RCC->APB2ENR |= RCC_APB2ENR_ADC1EN | RCC_APB2ENR_ADC2EN | RCC_APB2ENR_AFIOEN | RCC_APB2ENR_IOPAEN | RCC_APB2ENR_IOPBEN | RCC_APB2ENR_IOPCEN | RCC_APB2ENR_TIM1EN;
-	RCC->CFGR |= RCC_CFGR_ADCPRE_0; //48 / 4 = 12mhz adc
+	if (ARM_Core.Revision == 1) {
+		//stm32
+		RCC->CFGR |= RCC_CFGR_ADCPRE_0; //48 / 4 = 12mhz adc
+		ADC_CLOCK = SystemCoreClock / 4;
+	} else {
+		//GD32 adc is much worse (about 8 times)
+		RCC->CFGR |= RCC_CFGR_ADCPRE_0 | RCC_CFGR_ADCPRE_1; //48 / 8 = 6mhz adc
+		ADC_CLOCK = SystemCoreClock / 8;
+	}
 
 	AFIO->MAPR = AFIO_MAPR_SWJ_CFG_1;
 }
@@ -119,6 +136,14 @@ void GPIO_user_init(void) {
 
 	GPIO_PIN_SETUP(USB_PULLUP_Pin, USB_PULLUP_GPIO_Port, GPIO_MODE_AN);
 	GPIO_PIN_SETUP(P_USB_DP_Pin, P_USB_DP_GPIO_Port, GPIO_MODE_AN);
+
+	GPIO_PIN_SETUP(ADC_12V_Pin, ADC_12V_GPIO_Port, GPIO_MODE_AN);
+	GPIO_PIN_SETUP(ADC_T0_Pin, ADC_T0_GPIO_Port, GPIO_MODE_AN);
+	GPIO_PIN_SETUP(ADC_T2_Pin, ADC_T2_GPIO_Port, GPIO_MODE_AN);
+	GPIO_PIN_SETUP(ADC_T1_Pin, ADC_T1_GPIO_Port, GPIO_MODE_AN);
+	GPIO_PIN_SETUP(ADC_BRAKE_Pin, ADC_BRAKE_GPIO_Port, GPIO_MODE_AN);
+	GPIO_PIN_SETUP(ADC_THROTTLE_Pin, ADC_THROTTLE_GPIO_Port, GPIO_MODE_AN);
+	GPIO_PIN_SETUP(ADC_AMP_Pin, ADC_AMP_GPIO_Port, GPIO_MODE_AN);
 
 	if (Config.PWMouts.PWMIOmode == PWMIO_Mode_Open_drain) {
 		GPIO_PIN_SETUP(P_OUT1_Pin, P_OUT1_GPIO_Port, GPIO_MODE_OUT10_ALT_OD);

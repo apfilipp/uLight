@@ -21,7 +21,7 @@ typedef enum {
 	ADC_CR1_MODE_ALTERTRIG = (9 << 16)
 } ADC_Modes;
 
-#define ADC_CLOCK			SystemCoreClock/4
+extern uint32_t ADC_CLOCK;
 #define ADC_CALIBRATION_TIMEOUT         ((uint32_t) 10)
 //conversion sequences
 #define ADC_SQR1_SetNumberOfConv(_NbrOfConversion_)	(((_NbrOfConversion_) - (uint8_t)1) << 20)

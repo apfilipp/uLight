@@ -24,6 +24,7 @@
 #include <string.h>
 #include <math.h>
 #include "can_hal.h"
+#include "armutils.h"
 
 #ifdef  STM32F10X_MD
 #include "stm32f10x.h"
@@ -64,9 +65,7 @@ void txFifoProceed(void);
 
 //PRIVATE VARIABLES
 const float accuracy = 1.e-3;	// minimum required accuracy of the bit time
-volatile int CAN_ERR = 0;			
-												 
-	  
+volatile int CAN_ERR = 0;
 
 #ifdef LEVCAN_USE_RTOS_QUEUE
 TaskHandle_t txCantask = 0;
@@ -162,7 +161,8 @@ void CAN_Init(uint32_t BTR) {
 	//mask mode must match FF...F so nothing matches
 	CAN1->MCR |= CAN_MCR_RESET;
 	CAN1->MCR |= CAN_MCR_INRQ; //init can
-	while ((CAN1->MSR & CAN_MSR_INAK) == 0)
+	//rev1 = stm32, rev2 = GD32
+	while ((CAN1->MSR & CAN_MSR_INAK) == (ARM_Core.Revision == 1 ? 0 : 1))
 		;
 	CAN1->MCR &= ~CAN_MCR_SLEEP;
 
@@ -195,14 +195,14 @@ void CAN_Init(uint32_t BTR) {
 	//run CAN
 	CAN_Start();
 	CAN_FiltersClear();
-	
+
 #ifdef LEVCAN_USE_RTOS_QUEUE
 	txCanqueue = xQueueCreate(TXQUEUE_SIZE, sizeof(can_packet_t));
 	xTaskCreate(txCanTask, "ctx", configMINIMAL_STACK_SIZE, NULL, OS_PRIORITY_HIGH, &txCantask);
 #else
 	txFIFO_in = 0;
 	txFIFO_out = 0;
-	memset((void*)&txFIFO, 0, sizeof(txFIFO));
+	memset((void*) &txFIFO, 0, sizeof(txFIFO));
 #endif		
 }
 
@@ -529,14 +529,12 @@ uint8_t _anyTX() {
 	return ((~(CAN1->TSR)) & (CAN_TSR_TME0 | CAN_TSR_TME1 | CAN_TSR_TME2)) >> 26;
 }
 
-						 
 void CAN1_SCE_IRQHandler(void) {
 	CAN1->MSR |= CAN_MSR_ERRI;
 	CAN_ERR = 1;
 	//CAN_Start();
 	//trace_printf("CAN bus RESET, error has occurred");
 }
-
 
 LC_Return_t LC_HAL_Receive(LC_HeaderPacked_t *header, uint32_t *data, uint8_t *length) {
 	//Small hal overlay for converting LC header packed to CAN specific data
@@ -582,7 +580,7 @@ LC_Return_t LC_HAL_Send(LC_HeaderPacked_t header, uint32_t *data, uint8_t length
 }
 
 LC_Return_t LC_HAL_CreateFilterMasks(LC_HeaderPacked_t *reg, LC_HeaderPacked_t *mask, uint16_t count) {
-	
+
 	CAN_FilterEditOn();
 
 	CAN_IR can_reg, can_mask;
@@ -618,7 +616,7 @@ void CAN1_TX_IRQHandler(void) {
 
 #if defined(STM32F10X_MD) || defined(STM32F30X)
 void USB_LP_CAN1_RX0_IRQHandler(void) {
-	 receiveIRQ() ;
+	receiveIRQ();
 }
 void USB_HP_CAN1_TX_IRQHandler(void) {
 	transmitIRQ();
@@ -702,7 +700,7 @@ void receiveIRQ(void) {
 		LC_HeaderPacked_t header = { 0 };
 		header.ToUint32 = rindex.EXID; //29b
 		header.Request = rindex.Request; //30b
-				
+
 		LC_ReceiveHandler(LEVCAN_Node_Drv, header, data, rlength);
 	}
 }
@@ -718,7 +716,7 @@ void txFifoProceed(void) {
 		sindex.ExtensionID = 1;
 		sindex.Request = txFIFO[txFIFO_out].Header.Request;
 
-		if (CAN_Send(sindex, (void*)&txFIFO[txFIFO_out].data, txFIFO[txFIFO_out].length) != LC_Ok)
+		if (CAN_Send(sindex, (void*) &txFIFO[txFIFO_out].data, txFIFO[txFIFO_out].length) != LC_Ok)
 			break; //CAN full
 		txFIFO_out = (txFIFO_out + 1) % LEVCAN_TX_SIZE; //successful sent
 	}
