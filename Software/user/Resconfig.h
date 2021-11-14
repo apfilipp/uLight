@@ -8,8 +8,8 @@
 
 #include "stm32f10x.h"
 #include "diag/Trace.h"
-#include "Peripherial\gpio_user.h"
-#include "Peripherial\gpio_hal.h"
+#include "Peripherial/gpio_user.h"
+#include "Peripherial/gpio_hal.h"
 
 
 #define STM32F1

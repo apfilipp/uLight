@@ -7,7 +7,7 @@
 
 #include "levcan.h"
 #include "levcan_paramserver.h"
-#include "Parameters.h"
+#include "parameters.h"
 #include "adc.h"
 
 //extern const LCPS_Entry_t PD_Root[];

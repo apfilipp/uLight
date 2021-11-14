@@ -30,10 +30,10 @@ void networkShutdown(LC_NodeDescriptor_t *node, LC_Header_t header, void *data, 
 
 const LC_Object_t light_node_obj[] = { //
 		{ LC_SYS_Shutdown, { .Readable = 1, .Writable = 1, .Function = 1 }, 0, &networkShutdown },		//
-				{ LC_SYS_SWUpdate, { .Writable = 1, .Function = 1 }, 4, &proceedSWU }, //
-				{ LC_Obj_ActiveFunctions, { .Writable = 1, .Function = 1 }, sizeof(LC_Obj_ActiveFunctions_t), &LogicProcessData }, //
-				{ LC_Obj_Temperature, { .Writable = 1, .Function = 1 }, sizeof(LC_Obj_Temperature_t), &LogicProcessData }, //
-				{ LC_Obj_Buttons, { .Writable = 1, .Function = 1 }, sizeof(LC_Obj_Buttons_t), &LogicProcessData }, //
+		{ LC_SYS_SWUpdate, { .Writable = 1, .Function = 1 }, 4, &proceedSWU }, //
+		{ LC_Obj_ActiveFunctions, { .Writable = 1, .Function = 1 }, sizeof(LC_Obj_ActiveFunctions_t), &LogicProcessData }, //
+		{ LC_Obj_Temperature, { .Writable = 1, .Function = 1 }, sizeof(LC_Obj_Temperature_t), &LogicProcessData }, //
+		{ LC_Obj_Buttons, { .Writable = 1, .Function = 1 }, sizeof(LC_Obj_Buttons_t), &LogicProcessData }, //
 		};
 const uint16_t light_node_obj_size = sizeof(light_node_obj) / sizeof(light_node_obj[0]);
 

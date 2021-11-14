@@ -5,7 +5,7 @@
  *      Author: VasiliSk
  */
 #include "Resconfig.h"
-#include "Data\parameters.h"
+#include "Data/parameters.h"
 #include "pwm.h"
 
 //local functions
