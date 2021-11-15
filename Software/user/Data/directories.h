@@ -113,7 +113,7 @@ const LCPS_Entry_t PD_Func[] = {
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Turns.WarningButton, 	((LCP_Enum_t){0, BtMax}),				LANG("Warning switch", "Аварийная кнопка"), buttons ),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Turns.HighDuty,			((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("Turn brightness", "Яркость поворотников"), "%d%%" ),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Turns.OnTime,			((LCP_Decimal32_t){1, 10, 1, 1}),		LANG("Turn on-time", "Время вкл. поворотников"), "%ssec" ),
-	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Turns.OffTime,			((LCP_Decimal32_t){1, 10, 1, 1}),		LANG("Turn off-time", "Время выкл. поворотников"), "%ssec" ),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Turns.OffTime,			((LCP_Decimal32_t){0, 10, 1, 1}),		LANG("Turn off-time", "Время выкл. поворотников"), "%ssec" ),
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("# Brake signal setup #", "# Настройка тормоза #"),	0 ), //
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.LowBrakeDuty,		((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("Off-brake brightness", "Яркость без торможения"), "%d%%" ),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.HighBrakeDuty,	((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("On-brake brightness", "Яркость торможения"), "%d%%" ),

@@ -23,7 +23,7 @@
 #define sDEBUG(string) string
 #endif
 
-const Version_t VersionControl = { __DATE__, sDEBUG("0.6.1") };
+const Version_t VersionControl = { __DATE__, sDEBUG("0.6.2") };
 
 typedef struct {
 	uint32_t GoToBoot;

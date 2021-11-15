@@ -84,7 +84,7 @@ void LogicTick(uint32_t dt) {
 
 		}
 		if (Config.InputsCfg.SendPorts && sent_data >= 20) {
-			static LC_Obj_Buttons_t buttons ;
+			static LC_Obj_Buttons_t buttons;
 
 			const LC_ObjectRecord_t btns_send = { .Address = &buttons, .Size = sizeof(buttons), .Attributes.TCP = 0, .Attributes.Priority = LC_Priority_Mid,
 					.NodeID = LC_Broadcast_Address };
@@ -100,7 +100,7 @@ void LogicTick(uint32_t dt) {
 				buttons.ExButton7 = RD.Buttons.Int7_T1;
 				buttons.ExButton8 = RD.Buttons.Int8_T2;
 
-			} else if (Config.InputsCfg.SendPorts == 2)  {
+			} else if (Config.InputsCfg.SendPorts == 2) {
 				buttons.ExButton9 = RD.Buttons.Int1;
 				buttons.ExButton10 = RD.Buttons.Int2;
 				buttons.ExButton11 = RD.Buttons.Int3;
@@ -188,6 +188,11 @@ void LogicTick(uint32_t dt) {
 			if (turn_timer >= maxtime) {
 				turn_timer = 0;
 				state = !state;
+			}
+			if (Config.Func.Turns.OffTime == 0) {
+				//change state back if off time is 0
+				//helps to avoid small blinking
+				state = 0;
 			}
 		} else {
 			turn_timer = 0;
