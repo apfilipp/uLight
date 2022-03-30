@@ -1,7 +1,7 @@
 /*
  * levcan_config.h
  *
- *  Created on: 22 мар. 2018 г.
+ *  Created on: 22 пїЅпїЅпїЅ. 2018 пїЅ.
  *      Author: Vasiliy Sukhoparov (VasiliSk)
  */
 
@@ -18,7 +18,7 @@ static inline void lc_disable_irq(void) {
 
 #ifdef TRACE
 //Print debug messages using trace_printf
-//#define LEVCAN_TRACE
+#define LEVCAN_TRACE
 //You can re-define trace_printf function
 //#define trace_printf printf
 #endif

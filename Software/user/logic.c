@@ -1,7 +1,7 @@
 /*
  * logic.c
  *
- *  Created on: 16 feb 2020 ã.
+ *  Created on: 16 feb 2020 ï¿½.
  *      Author: VasiliSk
  */
 #include "Resconfig.h"
