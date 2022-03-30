@@ -21,23 +21,36 @@
 #include "levcan_events.h"
 #include "logic.h"
 
-extern void proceedSWU(LC_NodeDescriptor_t *node, LC_Header_t header, void *data, int32_t size);
+extern void proceedSWU(LC_NodeDescriptor_t *node, LC_Header_t header,
+		void *data, int32_t size);
 
 extern const LCPS_Directory_t PD_Directories[];
 extern const uint32_t PD_Directories_size;
 
-void networkShutdown(LC_NodeDescriptor_t *node, LC_Header_t header, void *data, int32_t size);
+void networkShutdown(LC_NodeDescriptor_t *node, LC_Header_t header, void *data,
+		int32_t size);
 
-const LC_Object_t light_node_obj[] = { //
-		{ LC_SYS_Shutdown, { .Readable = 1, .Writable = 1, .Function = 1 }, 0, &networkShutdown },		//
-		{ LC_SYS_SWUpdate, { .Writable = 1, .Function = 1 }, 4, &proceedSWU }, //
-		{ LC_Obj_ActiveFunctions, { .Writable = 1, .Function = 1 }, sizeof(LC_Obj_ActiveFunctions_t), &LogicProcessData }, //
-		{ LC_Obj_Temperature, { .Writable = 1, .Function = 1 }, sizeof(LC_Obj_Temperature_t), &LogicProcessData }, //
-		{ LC_Obj_Buttons, { .Writable = 1, .Function = 1 }, sizeof(LC_Obj_Buttons_t), &LogicProcessData }, //
+const LC_Object_t light_node_obj[] =
+{ //
+		{ LC_SYS_Shutdown,
+		{ .Readable = 1, .Writable = 1, .Function = 1 }, 0, &networkShutdown },	//
+				{ LC_SYS_SWUpdate,
+				{ .Writable = 1, .Function = 1 }, 4, &proceedSWU }, //
+				{ LC_Obj_ActiveFunctions,
+				{ .Writable = 1, .Function = 1 },
+						sizeof(LC_Obj_ActiveFunctions_t), &LogicProcessData }, //
+				{ LC_Obj_Temperature,
+				{ .Writable = 1, .Function = 1 }, sizeof(LC_Obj_Temperature_t),
+						&LogicProcessData }, //
+				{ LC_Obj_Buttons,
+				{ .Writable = 1, .Function = 1 }, sizeof(LC_Obj_Buttons_t),
+						&LogicProcessData }, //
 		};
-const uint16_t light_node_obj_size = sizeof(light_node_obj) / sizeof(light_node_obj[0]);
+const uint16_t light_node_obj_size = sizeof(light_node_obj)
+		/ sizeof(light_node_obj[0]);
 
-const LC_DriverCalls_t nodeDrv = { LC_HAL_Send, LC_HAL_CreateFilterMasks, LC_HAL_TxHalfFull };
+const LC_DriverCalls_t nodeDrv =
+{ LC_HAL_Send, LC_HAL_CreateFilterMasks, LC_HAL_TxHalfFull };
 
 LC_NodeDescriptor_t LevcanNode;
 LC_NodeDescriptor_t *LevcanNodePtr;
@@ -46,7 +59,8 @@ extern const Version_t VersionControl;
 extern LCPS_Entry_t PD_About[], PD_Root[];
 extern void delay_ms(uint32_t delay);
 
-void Network_Init(uint8_t node_id) {
+void Network_Init(uint8_t node_id)
+{
 
 	CAN_Init(0x01050002);
 
@@ -91,9 +105,11 @@ void Network_Init(uint8_t node_id) {
 	LEVCAN_Node_Drv = &LevcanNode;
 }
 
-void Network_Update(uint32_t tick) {
+void Network_Update(uint32_t tick)
+{
 	static int nm = 0;
-	if (CAN_ERR) {
+	if (CAN_ERR)
+	{
 		delay_ms(100);
 		CAN_Start();
 		CAN_ERR = 0;
@@ -101,10 +117,12 @@ void Network_Update(uint32_t tick) {
 	nm++;
 	LC_ReceiveManager(&LevcanNode);
 	//manager should work quickly to free levcan message objects
-	LC_NetworkManager(&LevcanNode, tick );
+	LC_NetworkManager(&LevcanNode, tick);
 }
 
-void networkShutdown(LC_NodeDescriptor_t *node, LC_Header_t header, void *data, int32_t size) {
+void networkShutdown(LC_NodeDescriptor_t *node, LC_Header_t header, void *data,
+		int32_t size)
+{
 	(void) size;
 	(void) node;
 	(void) header;

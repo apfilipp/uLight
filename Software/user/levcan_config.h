@@ -8,11 +8,13 @@
 #pragma once
 
 //user functions for critical sections
-static inline void lc_enable_irq(void) {
+static inline void lc_enable_irq(void)
+{
 
 	asm volatile ("cpsie i" : : : "memory");
 }
-static inline void lc_disable_irq(void) {
+static inline void lc_disable_irq(void)
+{
 	asm volatile ("cpsid i" : : : "memory");
 }
 

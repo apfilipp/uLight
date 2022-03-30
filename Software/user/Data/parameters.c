@@ -11,14 +11,19 @@
 volatile ConfigStruct_t Config;
 volatile DataStruct_t Data;
 volatile LifeDataStruct_t LifeData;
-volatile RuntimeStruct_t RD = { 0 };
+volatile RuntimeStruct_t RD =
+{ 0 };
 
-const intptr_t *Storage_Address[Save_number] = { (intptr_t*) &Data, (intptr_t*) &Config, (intptr_t*) &LifeData };
-const uint16_t Storage_Size[Save_number] = { sizeof(Data), sizeof(Config), sizeof(LifeData) };
+const intptr_t *Storage_Address[Save_number] =
+{ (intptr_t*) &Data, (intptr_t*) &Config, (intptr_t*) &LifeData };
+const uint16_t Storage_Size[Save_number] =
+{ sizeof(Data), sizeof(Config), sizeof(LifeData) };
 
-const uint16_t PWMIO_Freq[] = { 100, 500, 1000, 5000, 10000, 24000 };
+const uint16_t PWMIO_Freq[] =
+{ 100, 500, 1000, 5000, 10000, 24000 };
 
-void LoadDefaultParameters(void) {
+void LoadDefaultParameters(void)
+{
 
 	memset((void*) &Config, 0, sizeof(Config));
 
@@ -63,7 +68,8 @@ void LoadDefaultParameters(void) {
 	Config.InputsCfg.T2_Threshold = 50;
 	//Config.InputsCfg.Brightness = Brightness_BeamHigh;
 
-	for (int i = 0; i < TsensFunc_MAX; i++) {
+	for (int i = 0; i < TsensFunc_MAX; i++)
+	{
 		Config.Func.FanConrol.Tmin[i] = 40;
 		Config.Func.FanConrol.Tmax[i] = 60;
 		Config.Func.FanConrol.OutMin[i] = 0;

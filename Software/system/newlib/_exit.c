@@ -26,7 +26,6 @@
  */
 
 // ----------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include "diag/Trace.h"
 
@@ -55,27 +54,25 @@ _exit(int code);
 // is required.
 
 void
-__attribute__((weak))
-_exit(int code __attribute__((unused)))
+__attribute__((weak)) _exit(int code __attribute__((unused)))
 {
 #if !defined(DEBUG)
-  __reset_hardware();
+	__reset_hardware();
 #endif
 
-  // TODO: write on trace
-  while (1)
-    ;
+	// TODO: write on trace
+	while (1)
+		;
 }
 
 // ----------------------------------------------------------------------------
 
 void
-__attribute__((weak,noreturn))
-abort(void)
+__attribute__((weak,noreturn)) abort(void)
 {
-  trace_puts("abort(), exiting...");
+	trace_puts("abort(), exiting...");
 
-  _exit(1);
+	_exit(1);
 }
 
 // ----------------------------------------------------------------------------

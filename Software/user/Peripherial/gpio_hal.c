@@ -15,14 +15,17 @@
 #define _GPIO_INIT_PIN(PORT,PIN_NUM,PIN_MODE)           ((PIN_MODE)<0x10)? (_INIT_PIN(PORT,PIN_NUM,PIN_MODE))   :\
                 (_GPIO_SET_RESET(PORT,PIN_NUM,(PIN_MODE)&0x01), _INIT_PIN(PORT,PIN_NUM,(PIN_MODE)>>4))
 
-void GPIO_PIN_SETUP(int pin, GPIO_TypeDef *port, int mode) {
+void GPIO_PIN_SETUP(int pin, GPIO_TypeDef *port, int mode)
+{
 	_GPIO_INIT_PIN(port, pin, mode);
 }
 
-void GPIO_SET_RESET(int pin, GPIO_TypeDef *port, int mode) {
+void GPIO_SET_RESET(int pin, GPIO_TypeDef *port, int mode)
+{
 	_GPIO_SET_RESET(port, pin, mode);
 }
 
-int GPIO_PIN_GET(int pin, GPIO_TypeDef *port) {
-	return (port->IDR & ((uint32_t)1 << pin)) ? 1 : 0;
+int GPIO_PIN_GET(int pin, GPIO_TypeDef *port)
+{
+	return (port->IDR & ((uint32_t) 1 << pin)) ? 1 : 0;
 }

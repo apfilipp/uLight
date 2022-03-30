@@ -7,18 +7,21 @@
 
 #pragma once
 
-typedef struct {
+typedef struct
+{
 	char Date[12];
 	char Version[24];
 } Version_t;
 
-typedef struct {
+typedef struct
+{
 	uint16_t StructVersion;
 	const char *Date;
 	const char *Version;
 	const char *Name;
 
-	struct {
+	struct
+	{
 		int32_t Amp_mult;
 		int32_t Amp_div;
 		int32_t V12_mult;

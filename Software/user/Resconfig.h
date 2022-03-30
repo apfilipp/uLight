@@ -11,7 +11,6 @@
 #include "Peripherial/gpio_user.h"
 #include "Peripherial/gpio_hal.h"
 
-
 #define STM32F1
 
 //saves

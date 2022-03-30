@@ -12,7 +12,8 @@
 
 //extern const LCPS_Entry_t PD_Root[];
 extern LCPS_Entry_t PD_Root[], PD_About[];
-extern const LCPS_Entry_t PD_Inputs[], PD_Outputs[], PD_Menu[], PD_Func[], PD_InputsConf[], PD_TsFunctions[];
+extern const LCPS_Entry_t PD_Inputs[], PD_Outputs[], PD_Menu[], PD_Func[],
+		PD_InputsConf[], PD_TsFunctions[];
 
 uint32_t dummy;
 
@@ -29,7 +30,8 @@ uint32_t dummy;
 #define LCP_ROLiveUpd (LCP_ReadOnly | LCP_LiveUpdate)
 #define LCP_NLiveUpd (LCP_Normal | LCP_LiveUpdate)
 
-const LCP_Uint32_t zeroU32_t = { 0, 0, 0 };
+const LCP_Uint32_t zeroU32_t =
+{ 0, 0, 0 };
 
 // @formatter:off
 LCPS_Entry_t PD_Root[]
@@ -180,4 +182,5 @@ const LCPS_Directory_t PD_Directories[] = {
 	directory(PD_TsFunctions, TsensFunc_T2, LCP_AccessLvl_Any,		LANG("T2 T-sensor", "Т-датчик T2")),
 };
 // @formatter:on
-const uint32_t PD_Directories_size = sizeof(PD_Directories) / sizeof(PD_Directories[0]);
+const uint32_t PD_Directories_size = sizeof(PD_Directories)
+		/ sizeof(PD_Directories[0]);

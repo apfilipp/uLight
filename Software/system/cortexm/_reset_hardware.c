@@ -26,7 +26,6 @@
  */
 
 // ----------------------------------------------------------------------------
-
 #include "cmsis_device.h"
 
 // ----------------------------------------------------------------------------
@@ -50,10 +49,9 @@ __reset_hardware(void);
 // Called from _exit().
 
 void
-__attribute__((weak,noreturn))
-__reset_hardware()
+__attribute__((weak,noreturn)) __reset_hardware()
 {
-  NVIC_SystemReset();
+	NVIC_SystemReset();
 }
 
 // ----------------------------------------------------------------------------

@@ -17,17 +17,21 @@ HWVersionStruct_t HWConfig;
 
 void GoToBoot(uint8_t bootloader, int8_t node_id, int8_t server_id);
 
-void HWInit(void) {
-	if (HWLOCATION) {
+void HWInit(void)
+{
+	if (HWLOCATION)
+	{
 		//new bootloader?
-		HWVersionStruct_t* hwc = (void*) HWLOCATION;
+		HWVersionStruct_t *hwc = (void*) HWLOCATION;
 
-		switch (hwc->StructVersion) {
+		switch (hwc->StructVersion)
+		{
 		case 1:
 			memcpy(&HWConfig, (void*) HWLOCATION, sizeof(HWConfig));
 			break;
 
-		default: {
+		default:
+		{
 			GoToBoot(1, -1, -1);  //unsupported boot version
 			while (1)
 				;
@@ -35,7 +39,9 @@ void HWInit(void) {
 			break;
 		}
 
-	} else {
+	}
+	else
+	{
 #ifdef TRACE
 		trace_printf("Unknown cpu configuration, no boot information found");
 #endif

@@ -6,46 +6,44 @@
  ******************************************************************************/
 /* Copyright (c) 2009 - 2015 ARM LIMITED
 
-   All rights reserved.
-   Redistribution and use in source and binary forms, with or without
-   modification, are permitted provided that the following conditions are met:
-   - Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
-   - Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
-   - Neither the name of ARM nor the names of its contributors may be used
-     to endorse or promote products derived from this software without
-     specific prior written permission.
-   *
-   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-   ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDERS AND CONTRIBUTORS BE
-   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-   POSSIBILITY OF SUCH DAMAGE.
-   ---------------------------------------------------------------------------*/
-
+ All rights reserved.
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ - Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ - Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ - Neither the name of ARM nor the names of its contributors may be used
+ to endorse or promote products derived from this software without
+ specific prior written permission.
+ *
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDERS AND CONTRIBUTORS BE
+ LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
+ ---------------------------------------------------------------------------*/
 
 #ifndef __CMSIS_ARMCC_V6_H
 #define __CMSIS_ARMCC_V6_H
 
-
 /* ###########################  Core Function Access  ########################### */
 /** \ingroup  CMSIS_Core_FunctionInterface
-    \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
-  @{
+ \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
+ @{
  */
 
 /**
-  \brief   Enable IRQ Interrupts
-  \details Enables IRQ interrupts by clearing the I-bit in the CPSR.
-           Can only be executed in Privileged modes.
+ \brief   Enable IRQ Interrupts
+ \details Enables IRQ interrupts by clearing the I-bit in the CPSR.
+ Can only be executed in Privileged modes.
  */
 __attribute__((always_inline)) __STATIC_INLINE void __enable_irq(void)
 {
@@ -837,71 +835,67 @@ __attribute__((always_inline)) __STATIC_INLINE int32_t __REVSH(int32_t value)
 {
   int32_t result;
 
-  __ASM volatile ("revsh %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
-  return(result);
+  __ASM volatile ("revsh %0, %1" : __CMSIS_GCC_OUT_REG(result): __CMSIS_GCC_USE_REG(value)
+);
+return(result);
 }
 
-
 /**
-  \brief   Rotate Right in unsigned value (32 bit)
-  \details Rotate Right (immediate) provides the value of the contents of a register rotated by a variable number of bits.
-  \param [in]    op1  Value to rotate
-  \param [in]    op2  Number of Bits to rotate
-  \return               Rotated value
+ \brief   Rotate Right in unsigned value (32 bit)
+ \details Rotate Right (immediate) provides the value of the contents of a register rotated by a variable number of bits.
+ \param [in]    op1  Value to rotate
+ \param [in]    op2  Number of Bits to rotate
+ \return               Rotated value
  */
 __attribute__((always_inline)) __STATIC_INLINE uint32_t __ROR(uint32_t op1, uint32_t op2)
 {
-  return (op1 >> op2) | (op1 << (32U - op2));
+return (op1 >> op2) | (op1 << (32U - op2));
 }
 
-
 /**
-  \brief   Breakpoint
-  \details Causes the processor to enter Debug state.
-            Debug tools can use this to investigate system state when the instruction at a particular address is reached.
-    \param [in]    value  is ignored by the processor.
-                   If required, a debugger can use it to store additional information about the breakpoint.
+ \brief   Breakpoint
+ \details Causes the processor to enter Debug state.
+ Debug tools can use this to investigate system state when the instruction at a particular address is reached.
+ \param [in]    value  is ignored by the processor.
+ If required, a debugger can use it to store additional information about the breakpoint.
  */
 #define __BKPT(value)                       __ASM volatile ("bkpt "#value)
 
-
 /**
-  \brief   Reverse bit order of value
-  \details Reverses the bit order of the given value.
-  \param [in]    value  Value to reverse
-  \return               Reversed value
+ \brief   Reverse bit order of value
+ \details Reverses the bit order of the given value.
+ \param [in]    value  Value to reverse
+ \return               Reversed value
  */
-                                                          /* ToDo:  ARMCC_V6: check if __builtin_arm_rbit is supported */
+/* ToDo:  ARMCC_V6: check if __builtin_arm_rbit is supported */
 __attribute__((always_inline)) __STATIC_INLINE uint32_t __RBIT(uint32_t value)
 {
-  uint32_t result;
+uint32_t result;
 
 #if ((__ARM_ARCH_7M__ == 1U) || (__ARM_ARCH_7EM__ == 1U) || (__ARM_ARCH_8M__ == 1U))  /* ToDo:  ARMCC_V6: check if this is ok for cortex >=3 */
    __ASM volatile ("rbit %0, %1" : "=r" (result) : "r" (value) );
 #else
-  int32_t s = 4 /*sizeof(v)*/ * 8 - 1; /* extra shift needed at end */
+int32_t s = 4 /*sizeof(v)*/* 8 - 1; /* extra shift needed at end */
 
-  result = value;                      /* r will be reversed bits of v; first get LSB of v */
-  for (value >>= 1U; value; value >>= 1U)
-  {
-    result <<= 1U;
-    result |= value & 1U;
-    s--;
-  }
-  result <<= s;                        /* shift when v's highest bits are zero */
+result = value; /* r will be reversed bits of v; first get LSB of v */
+for (value >>= 1U; value; value >>= 1U)
+{
+	result <<= 1U;
+	result |= value & 1U;
+	s--;
+}
+result <<= s; /* shift when v's highest bits are zero */
 #endif
-  return(result);
+return(result);
 }
 
-
 /**
-  \brief   Count leading zeros
-  \details Counts the number of leading zeros of a data value.
-  \param [in]  value  Value to count the leading zeros
-  \return             number of leading zeros in value
+ \brief   Count leading zeros
+ \details Counts the number of leading zeros of a data value.
+ \param [in]  value  Value to count the leading zeros
+ \return             number of leading zeros in value
  */
 #define __CLZ             __builtin_clz
-
 
 #if ((__ARM_ARCH_7M__ == 1U) || (__ARM_ARCH_7EM__ == 1U) || (__ARM_ARCH_8M__ == 1U))  /* ToDo:  ARMCC_V6: check if this is ok for cortex >=3 */
 
@@ -1104,7 +1098,6 @@ __attribute__((always_inline)) __STATIC_INLINE void __STRT(uint32_t value, volat
 
 #endif /* ((__ARM_ARCH_7M__ == 1U) || (__ARM_ARCH_7EM__ == 1U) || (__ARM_ARCH_8M__ == 1U)) */
 
-
 #if (__ARM_ARCH_8M__ == 1U)
 
 /**
@@ -1249,14 +1242,13 @@ __attribute__((always_inline)) __STATIC_INLINE void __STL(uint32_t value, volati
 
 #endif /* (__ARM_ARCH_8M__ == 1U) */
 
-/*@}*/ /* end of group CMSIS_Core_InstructionInterface */
-
+/*@}*//* end of group CMSIS_Core_InstructionInterface */
 
 /* ###################  Compiler specific Intrinsics  ########################### */
 /** \defgroup CMSIS_SIMD_intrinsics CMSIS SIMD Intrinsics
-  Access to dedicated SIMD instructions
-  @{
-*/
+ Access to dedicated SIMD instructions
+ @{
+ */
 
 #if (__ARM_FEATURE_DSP == 1U)        /* ToDo:  ARMCC_V6: This should be ARCH >= ARMv7-M + SIMD */
 
@@ -1795,6 +1787,5 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __SMMLA (int32_t op1, in
 
 #endif /* (__ARM_FEATURE_DSP == 1U) */
 /*@} end of group CMSIS_SIMD_intrinsics */
-
 
 #endif /* __CMSIS_ARMCC_V6_H */

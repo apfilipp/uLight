@@ -5,12 +5,12 @@
  *      Author: VasiliSk
  */
 
-
 #include "levcan_objects.h"
 
 #pragma once
 
-typedef enum {
+typedef enum
+{
 	Dir_ROOT,
 	Dir_About,
 	Dir_Inputs,
@@ -25,11 +25,13 @@ typedef enum {
 	Dir_END = 127
 } Directories_t;
 
-enum {
+enum
+{
 	Save_Data, Save_Param, Save_Lifetime, Save_number
 };
 
-typedef enum {
+typedef enum
+{
 	BtDisabled,
 	BtEnabled,
 	BtInt_1,
@@ -59,7 +61,8 @@ typedef enum {
 	BtMax,
 } Buttons_t;
 
-typedef enum {
+typedef enum
+{
 	Func_Off,
 	Func_On,
 	Func_Button,
@@ -77,26 +80,33 @@ typedef enum {
 	Func_MAX,
 } Function_t;
 
-typedef enum {
+typedef enum
+{
 	Tsensor_OFF, Tsensor_NTC10K3950, Tsensor_NTC10K3380, Tsensor_MAX
 } Tsensor_t;
 
-typedef enum {
+typedef enum
+{
 	TthrMode_Normal, TthrMode_Inverted
 } TthrMode_t;
 
-typedef enum {
+typedef enum
+{
 	TsensFunc_Motor, TsensFunc_Contr, TsensFunc_T1, TsensFunc_T2, TsensFunc_MAX
 } TsensFunc_t;
 
-typedef enum {
+typedef enum
+{
 	PWMIO_Mode_OFF, PWMIO_Mode_Open_drain, PWMIO_Mode_Push_Pull, PWMIO_Mode_USB
 } PWMIO_Mode_t;
 
-typedef struct {
-	struct {
+typedef struct
+{
+	struct
+	{
 
-		struct {
+		struct
+		{
 			Buttons_t LeftButton;
 			Buttons_t RightButton;
 			Buttons_t WarningButton;
@@ -105,25 +115,30 @@ typedef struct {
 			uint8_t OnTime;
 		} Turns;
 
-		struct {
+		struct
+		{
 			Buttons_t HornButton;
 			uint8_t Strobe;
 		} Horn;
 
-		struct {
+		struct
+		{
 			uint8_t LowBrakeDuty;
 			uint8_t HighBrakeDuty;
 		} Brake;
 
-		struct {
+		struct
+		{
 			uint8_t LowDuty;
 			uint8_t HighDuty;
 		} Reverse;
 
-		struct {
+		struct
+		{
 			Buttons_t LowBeamButton;
 			Buttons_t HighBeamButton;
-			enum {
+			enum
+			{
 				Beams_Separate, Beams_Single
 			} BeamsMode;
 			uint8_t MinDuty;
@@ -131,7 +146,8 @@ typedef struct {
 			uint8_t HighDuty;
 		} Beam;
 
-		struct {
+		struct
+		{
 			int8_t Tmin[TsensFunc_MAX];
 			int8_t Tmax[TsensFunc_MAX];
 			uint8_t OutMin[TsensFunc_MAX];
@@ -141,9 +157,11 @@ typedef struct {
 		uint8_t AloneCANshutdown;
 	} Func;
 
-	union {
+	union
+	{
 		uint8_t PWMoutArray[15];
-		struct { //Function_t
+		struct
+		{ //Function_t
 			uint8_t PWM1out;
 			uint8_t PWM2out;
 			uint8_t PWM3out;
@@ -162,7 +180,8 @@ typedef struct {
 		};
 	} PWMouts;
 
-	struct {
+	struct
+	{
 		Tsensor_t T1;
 		Tsensor_t T2;
 		uint8_t T1_Threshold;
@@ -183,17 +202,21 @@ typedef struct {
 
 } ConfigStruct_t;
 
-typedef struct {
+typedef struct
+{
 
 } DataStruct_t;
 
-typedef struct {
+typedef struct
+{
 	uint32_t TotalOnTime; //sec
 	uint32_t PowerCycleCount; //enable times
 } LifeDataStruct_t;
 
-typedef struct {
-	struct {
+typedef struct
+{
+	struct
+	{
 		uint8_t Reboot;
 		uint8_t LoadDefaults;
 		uint8_t WipeData;
@@ -203,15 +226,18 @@ typedef struct {
 		uint8_t ExportConf;
 	} Menu;
 
-	struct {
+	struct
+	{
 		uint16_t Min;
 		uint16_t Hours;
 		uint16_t Days;
 	} Lifetime;
 
-	union {
+	union
+	{
 		uint8_t ButtonArray[BtMax];
-		struct {
+		struct
+		{
 			uint8_t OffBt;
 			uint8_t OnBt;
 			uint8_t Int1;

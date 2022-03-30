@@ -26,7 +26,6 @@
  */
 
 // ----------------------------------------------------------------------------
-
 #include "cmsis_device.h"
 
 // ----------------------------------------------------------------------------
@@ -53,11 +52,10 @@ __initialize_hardware(void);
 // priority is Privileged, and the Stack is set to Main.
 
 void
-__attribute__((weak))
-__initialize_hardware_early(void)
+__attribute__((weak)) __initialize_hardware_early(void)
 {
-  // Call the CSMSIS system initialisation routine.
-  SystemInit();
+	// Call the CSMSIS system initialisation routine.
+	SystemInit();
 
 #if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
   // Set VTOR to the actual address, provided by the linker script.
@@ -65,10 +63,10 @@ __initialize_hardware_early(void)
   SCB->VTOR = (uint32_t)(&__vectors_start);
 #endif
 
-  // The current version of SystemInit() leaves the value of the clock
-  // in a RAM variable (SystemCoreClock), which will be cleared shortly,
-  // so it needs to be recomputed after the RAM initialisations
-  // are completed.
+	// The current version of SystemInit() leaves the value of the clock
+	// in a RAM variable (SystemCoreClock), which will be cleared shortly,
+	// so it needs to be recomputed after the RAM initialisations
+	// are completed.
 
 #if defined(OS_INCLUDE_STARTUP_INIT_FP) || (defined (__VFP_FP__) && !defined (__SOFTFP__))
 
@@ -98,12 +96,11 @@ __initialize_hardware_early(void)
 // constructors.
 
 void
-__attribute__((weak))
-__initialize_hardware(void)
+__attribute__((weak)) __initialize_hardware(void)
 {
-  // Call the CSMSIS system clock routine to store the clock frequency
-  // in the SystemCoreClock global RAM location.
-  SystemCoreClockUpdate();
+	// Call the CSMSIS system clock routine to store the clock frequency
+	// in the SystemCoreClock global RAM location.
+	SystemCoreClockUpdate();
 }
 
 // ----------------------------------------------------------------------------

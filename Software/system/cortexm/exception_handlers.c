@@ -26,7 +26,6 @@
  */
 
 // ----------------------------------------------------------------------------
-
 #include "cortexm/ExceptionHandlers.h"
 #include "cmsis_device.h"
 #include "arm/semihosting.h"
@@ -37,7 +36,7 @@
 
 extern void
 __attribute__((noreturn,weak))
-_start (void);
+_start(void);
 
 // ----------------------------------------------------------------------------
 // Default exception handlers. Override the ones here by defining your own
@@ -57,30 +56,28 @@ Reset_Handler (void)
 #else
 
 // The Release version is optimised to a quick branch to _start.
-void __attribute__ ((section(".after_vectors"),naked))
-Reset_Handler(void)
-  {
-    asm volatile
-    (
-        " ldr     r0,=_start \n"
-        " bx      r0"
-        :
-        :
-        :
-    );
-  }
+void __attribute__ ((section(".after_vectors"),naked)) Reset_Handler(void)
+{
+	asm volatile
+	(
+			" ldr     r0,=_start \n"
+			" bx      r0"
+			:
+			:
+			:
+	);
+}
 
 #endif
 
-void __attribute__ ((section(".after_vectors"),weak))
-NMI_Handler (void)
+void __attribute__ ((section(".after_vectors"),weak)) NMI_Handler(void)
 {
 #if defined(DEBUG)
   __DEBUG_BKPT();
 #endif
-  while (1)
-    {
-    }
+	while (1)
+	{
+	}
 }
 
 // ----------------------------------------------------------------------------
@@ -409,7 +406,6 @@ HardFault_Handler_C (ExceptionStackFrame* frame __attribute__((unused)),
 
 #endif // defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
 
-
 #if defined(__ARM_ARCH_6M__)
 
 // Hard Fault handler wrapper in assembly.
@@ -463,7 +459,6 @@ HardFault_Handler_C (ExceptionStackFrame* frame __attribute__((unused)),
 }
 
 #endif // defined(__ARM_ARCH_6M__)
-
 
 #if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
 
@@ -573,15 +568,14 @@ UsageFault_Handler_C (ExceptionStackFrame* frame __attribute__((unused)),
 
 #endif
 
-void __attribute__ ((section(".after_vectors"),weak))
-SVC_Handler (void)
+void __attribute__ ((section(".after_vectors"),weak)) SVC_Handler(void)
 {
 #if defined(DEBUG)
   __DEBUG_BKPT();
 #endif
-  while (1)
-    {
-    }
+	while (1)
+	{
+	}
 }
 
 #if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
@@ -599,23 +593,21 @@ DebugMon_Handler (void)
 
 #endif
 
-void __attribute__ ((section(".after_vectors"),weak))
-PendSV_Handler (void)
+void __attribute__ ((section(".after_vectors"),weak)) PendSV_Handler(void)
 {
 #if defined(DEBUG)
   __DEBUG_BKPT();
 #endif
-  while (1)
-    {
-    }
+	while (1)
+	{
+	}
 }
 
-void __attribute__ ((section(".after_vectors"),weak))
-SysTick_Handler (void)
+void __attribute__ ((section(".after_vectors"),weak)) SysTick_Handler(void)
 {
-  // DO NOT loop, just return.
-  // Useful in case someone (like STM HAL) inadvertently enables SysTick.
-  ;
+	// DO NOT loop, just return.
+	// Useful in case someone (like STM HAL) inadvertently enables SysTick.
+	;
 }
 
 // ----------------------------------------------------------------------------

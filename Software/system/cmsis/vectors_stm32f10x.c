@@ -26,7 +26,6 @@
  */
 
 // ----------------------------------------------------------------------------
-
 #include "cortexm/ExceptionHandlers.h"
 
 // ----------------------------------------------------------------------------
@@ -225,7 +224,7 @@ TIM14_IRQHandler(void);
 extern unsigned int _estack;
 
 typedef void
-(* const pHandler)(void);
+(*const pHandler)(void);
 
 // ----------------------------------------------------------------------------
 
@@ -234,55 +233,55 @@ typedef void
 
 __attribute__ ((section(".isr_vector"),used))
 pHandler __isr_vectors[] =
-  {
-  // Core Level - CM3
-      (pHandler) &_estack, // The initial stack pointer
-      Reset_Handler, // The reset handler
+{
+// Core Level - CM3
+		(pHandler) &_estack, // The initial stack pointer
+		Reset_Handler, // The reset handler
 
-      NMI_Handler, // The NMI handler
-      HardFault_Handler, // The hard fault handler
+		NMI_Handler, // The NMI handler
+		HardFault_Handler, // The hard fault handler
 #if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
       MemManage_Handler,                        // The MPU fault handler
       BusFault_Handler,                        // The bus fault handler
       UsageFault_Handler,                        // The usage fault handler
 #else
-      0, 0, 0,                                  // Reserved
+		0, 0, 0,                                  // Reserved
 #endif
-      0,                                        // Reserved
-      0,                                        // Reserved
-      0,                                        // Reserved
-      0,                                        // Reserved
-      SVC_Handler,                              // SVCall handler
+		0,                                        // Reserved
+		0,                                        // Reserved
+		0,                                        // Reserved
+		0,                                        // Reserved
+		SVC_Handler,                              // SVCall handler
 #if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
       DebugMon_Handler,                         // Debug monitor handler
 #else
-      0,                                        // Reserved
+		0,                                        // Reserved
 #endif
-      0, // Reserved
-      PendSV_Handler, // The PendSV handler
-      SysTick_Handler, // The SysTick handler
+		0, // Reserved
+		PendSV_Handler, // The PendSV handler
+		SysTick_Handler, // The SysTick handler
 
-      // ----------------------------------------------------------------------
-      // Chip Level - STM32F10x
-      WWDG_IRQHandler, // Window WatchDog
-      PVD_IRQHandler, // PVD through EXTI Line detection
-      TAMPER_IRQHandler, // Tamper through the EXTI line
-      RTC_IRQHandler, // RTC Wakeup through the EXTI line
-      FLASH_IRQHandler, // FLASH
-      RCC_IRQHandler, // RCC
-      EXTI0_IRQHandler, // EXTI Line0
-      EXTI1_IRQHandler, // EXTI Line1
-      EXTI2_IRQHandler, // EXTI Line2
-      EXTI3_IRQHandler, // EXTI Line3
-      EXTI4_IRQHandler, // EXTI Line4
-      DMA1_Channel1_IRQHandler, // DMA1 Channel 1
-      DMA1_Channel2_IRQHandler, // DMA1 Channel 2
-      DMA1_Channel3_IRQHandler, // DMA1 Channel 3
-      DMA1_Channel4_IRQHandler, // DMA1 Channel 4
-      DMA1_Channel5_IRQHandler, // DMA1 Channel 5
-      DMA1_Channel6_IRQHandler, // DMA1 Channel 6
-      DMA1_Channel7_IRQHandler, // DMA1 Channel 7
-      ADC1_2_IRQHandler, // ADC1, ADC2
+		// ----------------------------------------------------------------------
+		// Chip Level - STM32F10x
+		WWDG_IRQHandler, // Window WatchDog
+		PVD_IRQHandler, // PVD through EXTI Line detection
+		TAMPER_IRQHandler, // Tamper through the EXTI line
+		RTC_IRQHandler, // RTC Wakeup through the EXTI line
+		FLASH_IRQHandler, // FLASH
+		RCC_IRQHandler, // RCC
+		EXTI0_IRQHandler, // EXTI Line0
+		EXTI1_IRQHandler, // EXTI Line1
+		EXTI2_IRQHandler, // EXTI Line2
+		EXTI3_IRQHandler, // EXTI Line3
+		EXTI4_IRQHandler, // EXTI Line4
+		DMA1_Channel1_IRQHandler, // DMA1 Channel 1
+		DMA1_Channel2_IRQHandler, // DMA1 Channel 2
+		DMA1_Channel3_IRQHandler, // DMA1 Channel 3
+		DMA1_Channel4_IRQHandler, // DMA1 Channel 4
+		DMA1_Channel5_IRQHandler, // DMA1 Channel 5
+		DMA1_Channel6_IRQHandler, // DMA1 Channel 6
+		DMA1_Channel7_IRQHandler, // DMA1 Channel 7
+		ADC1_2_IRQHandler, // ADC1, ADC2
 
 #if defined(STM32F10X_LD)
 
@@ -322,39 +321,39 @@ pHandler __isr_vectors[] =
 
 #elif defined(STM32F10X_MD)
 
-    USB_HP_CAN1_TX_IRQHandler, //
-    USB_LP_CAN1_RX0_IRQHandler, //
-    CAN1_RX1_IRQHandler, //
-    CAN1_SCE_IRQHandler, //
-    EXTI9_5_IRQHandler, //
-    TIM1_BRK_IRQHandler, //
-    TIM1_UP_IRQHandler, //
-    TIM1_TRG_COM_IRQHandler, //
-    TIM1_CC_IRQHandler, //
-    TIM2_IRQHandler, //
-    TIM3_IRQHandler, //
-    TIM4_IRQHandler, //
-    I2C1_EV_IRQHandler, //
-    I2C1_ER_IRQHandler, //
-    I2C2_EV_IRQHandler, //
-    I2C2_ER_IRQHandler, //
-    SPI1_IRQHandler, //
-    SPI2_IRQHandler, //
-    USART1_IRQHandler, //
-    USART2_IRQHandler, //
-    USART3_IRQHandler, //
-    EXTI15_10_IRQHandler, //
-    RTCAlarm_IRQHandler, //
-    USBWakeUp_IRQHandler, //
-    0, //
-    0, //
-    0, //
-    0, //
-    0, //
-    0, //
-    0, //
-    // @0x108. This is for boot in RAM mode for STM32F10x Low Density devices.
-    (pHandler)0xF108F85F
+		USB_HP_CAN1_TX_IRQHandler, //
+		USB_LP_CAN1_RX0_IRQHandler, //
+		CAN1_RX1_IRQHandler, //
+		CAN1_SCE_IRQHandler, //
+		EXTI9_5_IRQHandler, //
+		TIM1_BRK_IRQHandler, //
+		TIM1_UP_IRQHandler, //
+		TIM1_TRG_COM_IRQHandler, //
+		TIM1_CC_IRQHandler, //
+		TIM2_IRQHandler, //
+		TIM3_IRQHandler, //
+		TIM4_IRQHandler, //
+		I2C1_EV_IRQHandler, //
+		I2C1_ER_IRQHandler, //
+		I2C2_EV_IRQHandler, //
+		I2C2_ER_IRQHandler, //
+		SPI1_IRQHandler, //
+		SPI2_IRQHandler, //
+		USART1_IRQHandler, //
+		USART2_IRQHandler, //
+		USART3_IRQHandler, //
+		EXTI15_10_IRQHandler, //
+		RTCAlarm_IRQHandler, //
+		USBWakeUp_IRQHandler, //
+		0, //
+		0, //
+		0, //
+		0, //
+		0, //
+		0, //
+		0, //
+		   // @0x108. This is for boot in RAM mode for STM32F10x Low Density devices.
+		(pHandler) 0xF108F85F
 
 #elif defined(STM32F10X_HD)
 
@@ -893,22 +892,21 @@ pHandler __isr_vectors[] =
 #else
 #error "missing vectors"
 #endif
-  };
+		};
 
 // ----------------------------------------------------------------------------
 
 // Processor ends up here if an unexpected interrupt occurs or a specific
 // handler is not present in the application code.
 
-void __attribute__ ((section(".after_vectors")))
-Default_Handler(void)
+void __attribute__ ((section(".after_vectors"))) Default_Handler(void)
 {
 #if defined(DEBUG)
   __DEBUG_BKPT();
 #endif
-  while (1)
-    {
-    }
+	while (1)
+	{
+	}
 }
 
 // ----------------------------------------------------------------------------

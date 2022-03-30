@@ -6,35 +6,33 @@
  ******************************************************************************/
 /* Copyright (c) 2009 - 2015 ARM LIMITED
 
-   All rights reserved.
-   Redistribution and use in source and binary forms, with or without
-   modification, are permitted provided that the following conditions are met:
-   - Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
-   - Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
-   - Neither the name of ARM nor the names of its contributors may be used
-     to endorse or promote products derived from this software without
-     specific prior written permission.
-   *
-   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-   ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDERS AND CONTRIBUTORS BE
-   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-   POSSIBILITY OF SUCH DAMAGE.
-   ---------------------------------------------------------------------------*/
-
+ All rights reserved.
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ - Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ - Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ - Neither the name of ARM nor the names of its contributors may be used
+ to endorse or promote products derived from this software without
+ specific prior written permission.
+ *
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL COPYRIGHT HOLDERS AND CONTRIBUTORS BE
+ LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
+ ---------------------------------------------------------------------------*/
 
 #ifndef __CMSIS_ARMCC_H
 #define __CMSIS_ARMCC_H
-
 
 #if defined(__ARMCC_VERSION) && (__ARMCC_VERSION < 400677)
   #error "Please use ARM Compiler Toolchain V4.0.677 or later!"
@@ -42,144 +40,144 @@
 
 /* ###########################  Core Function Access  ########################### */
 /** \ingroup  CMSIS_Core_FunctionInterface
-    \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
-  @{
+ \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
+ @{
  */
 
 /* intrinsic void __enable_irq();     */
 /* intrinsic void __disable_irq();    */
 
 /**
-  \brief   Get Control Register
-  \details Returns the content of the Control Register.
-  \return               Control Register value
+ \brief   Get Control Register
+ \details Returns the content of the Control Register.
+ \return               Control Register value
  */
 __STATIC_INLINE uint32_t __get_CONTROL(void)
 {
-  register uint32_t __regControl         __ASM("control");
-  return(__regControl);
+	register uint32_t __regControl
+	__ASM("control");
+	return (__regControl);
 }
 
-
 /**
-  \brief   Set Control Register
-  \details Writes the given value to the Control Register.
-  \param [in]    control  Control Register value to set
+ \brief   Set Control Register
+ \details Writes the given value to the Control Register.
+ \param [in]    control  Control Register value to set
  */
 __STATIC_INLINE void __set_CONTROL(uint32_t control)
 {
-  register uint32_t __regControl         __ASM("control");
-  __regControl = control;
+	register uint32_t __regControl
+	__ASM("control");
+	__regControl = control;
 }
 
-
 /**
-  \brief   Get IPSR Register
-  \details Returns the content of the IPSR Register.
-  \return               IPSR Register value
+ \brief   Get IPSR Register
+ \details Returns the content of the IPSR Register.
+ \return               IPSR Register value
  */
 __STATIC_INLINE uint32_t __get_IPSR(void)
 {
-  register uint32_t __regIPSR          __ASM("ipsr");
-  return(__regIPSR);
+	register uint32_t __regIPSR
+	__ASM("ipsr");
+	return (__regIPSR);
 }
 
-
 /**
-  \brief   Get APSR Register
-  \details Returns the content of the APSR Register.
-  \return               APSR Register value
+ \brief   Get APSR Register
+ \details Returns the content of the APSR Register.
+ \return               APSR Register value
  */
 __STATIC_INLINE uint32_t __get_APSR(void)
 {
-  register uint32_t __regAPSR          __ASM("apsr");
-  return(__regAPSR);
+	register uint32_t __regAPSR
+	__ASM("apsr");
+	return (__regAPSR);
 }
 
-
 /**
-  \brief   Get xPSR Register
-  \details Returns the content of the xPSR Register.
-  \return               xPSR Register value
+ \brief   Get xPSR Register
+ \details Returns the content of the xPSR Register.
+ \return               xPSR Register value
  */
 __STATIC_INLINE uint32_t __get_xPSR(void)
 {
-  register uint32_t __regXPSR          __ASM("xpsr");
-  return(__regXPSR);
+	register uint32_t __regXPSR
+	__ASM("xpsr");
+	return (__regXPSR);
 }
 
-
 /**
-  \brief   Get Process Stack Pointer
-  \details Returns the current value of the Process Stack Pointer (PSP).
-  \return               PSP Register value
+ \brief   Get Process Stack Pointer
+ \details Returns the current value of the Process Stack Pointer (PSP).
+ \return               PSP Register value
  */
 __STATIC_INLINE uint32_t __get_PSP(void)
 {
-  register uint32_t __regProcessStackPointer  __ASM("psp");
-  return(__regProcessStackPointer);
+	register uint32_t __regProcessStackPointer
+	__ASM("psp");
+	return (__regProcessStackPointer);
 }
 
-
 /**
-  \brief   Set Process Stack Pointer
-  \details Assigns the given value to the Process Stack Pointer (PSP).
-  \param [in]    topOfProcStack  Process Stack Pointer value to set
+ \brief   Set Process Stack Pointer
+ \details Assigns the given value to the Process Stack Pointer (PSP).
+ \param [in]    topOfProcStack  Process Stack Pointer value to set
  */
 __STATIC_INLINE void __set_PSP(uint32_t topOfProcStack)
 {
-  register uint32_t __regProcessStackPointer  __ASM("psp");
-  __regProcessStackPointer = topOfProcStack;
+	register uint32_t __regProcessStackPointer
+	__ASM("psp");
+	__regProcessStackPointer = topOfProcStack;
 }
 
-
 /**
-  \brief   Get Main Stack Pointer
-  \details Returns the current value of the Main Stack Pointer (MSP).
-  \return               MSP Register value
+ \brief   Get Main Stack Pointer
+ \details Returns the current value of the Main Stack Pointer (MSP).
+ \return               MSP Register value
  */
 __STATIC_INLINE uint32_t __get_MSP(void)
 {
-  register uint32_t __regMainStackPointer     __ASM("msp");
-  return(__regMainStackPointer);
+	register uint32_t __regMainStackPointer
+	__ASM("msp");
+	return (__regMainStackPointer);
 }
 
-
 /**
-  \brief   Set Main Stack Pointer
-  \details Assigns the given value to the Main Stack Pointer (MSP).
-  \param [in]    topOfMainStack  Main Stack Pointer value to set
+ \brief   Set Main Stack Pointer
+ \details Assigns the given value to the Main Stack Pointer (MSP).
+ \param [in]    topOfMainStack  Main Stack Pointer value to set
  */
 __STATIC_INLINE void __set_MSP(uint32_t topOfMainStack)
 {
-  register uint32_t __regMainStackPointer     __ASM("msp");
-  __regMainStackPointer = topOfMainStack;
+	register uint32_t __regMainStackPointer
+	__ASM("msp");
+	__regMainStackPointer = topOfMainStack;
 }
 
-
 /**
-  \brief   Get Priority Mask
-  \details Returns the current state of the priority mask bit from the Priority Mask Register.
-  \return               Priority Mask value
+ \brief   Get Priority Mask
+ \details Returns the current state of the priority mask bit from the Priority Mask Register.
+ \return               Priority Mask value
  */
 __STATIC_INLINE uint32_t __get_PRIMASK(void)
 {
-  register uint32_t __regPriMask         __ASM("primask");
-  return(__regPriMask);
+	register uint32_t __regPriMask
+	__ASM("primask");
+	return (__regPriMask);
 }
 
-
 /**
-  \brief   Set Priority Mask
-  \details Assigns the given value to the Priority Mask Register.
-  \param [in]    priMask  Priority Mask
+ \brief   Set Priority Mask
+ \details Assigns the given value to the Priority Mask Register.
+ \param [in]    priMask  Priority Mask
  */
 __STATIC_INLINE void __set_PRIMASK(uint32_t priMask)
 {
-  register uint32_t __regPriMask         __ASM("primask");
-  __regPriMask = (priMask);
+	register uint32_t __regPriMask
+	__ASM("primask");
+	__regPriMask = (priMask);
 }
-
 
 #if       (__CORTEX_M >= 0x03U) || (__CORTEX_SC >= 300U)
 
@@ -261,7 +259,6 @@ __STATIC_INLINE void __set_FAULTMASK(uint32_t faultMask)
 
 #endif /* (__CORTEX_M >= 0x03U) || (__CORTEX_SC >= 300U) */
 
-
 #if       (__CORTEX_M == 0x04U) || (__CORTEX_M == 0x07U)
 
 /**
@@ -295,51 +292,44 @@ __STATIC_INLINE void __set_FPSCR(uint32_t fpscr)
 
 #endif /* (__CORTEX_M == 0x04U) || (__CORTEX_M == 0x07U) */
 
-
-
 /*@} end of CMSIS_Core_RegAccFunctions */
-
 
 /* ##########################  Core Instruction Access  ######################### */
 /** \defgroup CMSIS_Core_InstructionInterface CMSIS Core Instruction Interface
-  Access to dedicated instructions
-  @{
-*/
+ Access to dedicated instructions
+ @{
+ */
 
 /**
-  \brief   No Operation
-  \details No Operation does nothing. This instruction can be used for code alignment purposes.
+ \brief   No Operation
+ \details No Operation does nothing. This instruction can be used for code alignment purposes.
  */
 #define __NOP                             __nop
 
-
 /**
-  \brief   Wait For Interrupt
-  \details Wait For Interrupt is a hint instruction that suspends execution until one of a number of events occurs.
+ \brief   Wait For Interrupt
+ \details Wait For Interrupt is a hint instruction that suspends execution until one of a number of events occurs.
  */
 #define __WFI                             __wfi
 
-
 /**
-  \brief   Wait For Event
-  \details Wait For Event is a hint instruction that permits the processor to enter
-           a low-power state until one of a number of events occurs.
+ \brief   Wait For Event
+ \details Wait For Event is a hint instruction that permits the processor to enter
+ a low-power state until one of a number of events occurs.
  */
 #define __WFE                             __wfe
 
-
 /**
-  \brief   Send Event
-  \details Send Event is a hint instruction. It causes an event to be signaled to the CPU.
+ \brief   Send Event
+ \details Send Event is a hint instruction. It causes an event to be signaled to the CPU.
  */
 #define __SEV                             __sev
 
-
 /**
-  \brief   Instruction Synchronization Barrier
-  \details Instruction Synchronization Barrier flushes the pipeline in the processor,
-           so that all instructions following the ISB are fetched from cache or memory,
-           after the instruction has been completed.
+ \brief   Instruction Synchronization Barrier
+ \details Instruction Synchronization Barrier flushes the pipeline in the processor,
+ so that all instructions following the ISB are fetched from cache or memory,
+ after the instruction has been completed.
  */
 #define __ISB() do {\
                    __schedule_barrier();\
@@ -348,9 +338,9 @@ __STATIC_INLINE void __set_FPSCR(uint32_t fpscr)
                 } while (0U)
 
 /**
-  \brief   Data Synchronization Barrier
-  \details Acts as a special kind of Data Memory Barrier.
-           It completes when all explicit memory accesses before this instruction complete.
+ \brief   Data Synchronization Barrier
+ \details Acts as a special kind of Data Memory Barrier.
+ It completes when all explicit memory accesses before this instruction complete.
  */
 #define __DSB() do {\
                    __schedule_barrier();\
@@ -359,9 +349,9 @@ __STATIC_INLINE void __set_FPSCR(uint32_t fpscr)
                 } while (0U)
 
 /**
-  \brief   Data Memory Barrier
-  \details Ensures the apparent order of the explicit memory operations before
-           and after the instruction, without ensuring their completion.
+ \brief   Data Memory Barrier
+ \details Ensures the apparent order of the explicit memory operations before
+ and after the instruction, without ensuring their completion.
  */
 #define __DMB() do {\
                    __schedule_barrier();\
@@ -370,98 +360,92 @@ __STATIC_INLINE void __set_FPSCR(uint32_t fpscr)
                 } while (0U)
 
 /**
-  \brief   Reverse byte order (32 bit)
-  \details Reverses the byte order in integer value.
-  \param [in]    value  Value to reverse
-  \return               Reversed value
+ \brief   Reverse byte order (32 bit)
+ \details Reverses the byte order in integer value.
+ \param [in]    value  Value to reverse
+ \return               Reversed value
  */
 #define __REV                             __rev
 
-
 /**
-  \brief   Reverse byte order (16 bit)
-  \details Reverses the byte order in two unsigned short values.
-  \param [in]    value  Value to reverse
-  \return               Reversed value
+ \brief   Reverse byte order (16 bit)
+ \details Reverses the byte order in two unsigned short values.
+ \param [in]    value  Value to reverse
+ \return               Reversed value
  */
 #ifndef __NO_EMBEDDED_ASM
 __attribute__((section(".rev16_text"))) __STATIC_INLINE __ASM uint32_t __REV16(uint32_t value)
 {
-  rev16 r0, r0
-  bx lr
+	rev16 r0, r0
+	bx lr
 }
 #endif
 
 /**
-  \brief   Reverse byte order in signed short value
-  \details Reverses the byte order in a signed short value with sign extension to integer.
-  \param [in]    value  Value to reverse
-  \return               Reversed value
+ \brief   Reverse byte order in signed short value
+ \details Reverses the byte order in a signed short value with sign extension to integer.
+ \param [in]    value  Value to reverse
+ \return               Reversed value
  */
 #ifndef __NO_EMBEDDED_ASM
 __attribute__((section(".revsh_text"))) __STATIC_INLINE __ASM int32_t __REVSH(int32_t value)
 {
-  revsh r0, r0
-  bx lr
+	revsh r0, r0
+	bx lr
 }
 #endif
 
-
 /**
-  \brief   Rotate Right in unsigned value (32 bit)
-  \details Rotate Right (immediate) provides the value of the contents of a register rotated by a variable number of bits.
-  \param [in]    value  Value to rotate
-  \param [in]    value  Number of Bits to rotate
-  \return               Rotated value
+ \brief   Rotate Right in unsigned value (32 bit)
+ \details Rotate Right (immediate) provides the value of the contents of a register rotated by a variable number of bits.
+ \param [in]    value  Value to rotate
+ \param [in]    value  Number of Bits to rotate
+ \return               Rotated value
  */
 #define __ROR                             __ror
 
-
 /**
-  \brief   Breakpoint
-  \details Causes the processor to enter Debug state.
-           Debug tools can use this to investigate system state when the instruction at a particular address is reached.
-  \param [in]    value  is ignored by the processor.
-                 If required, a debugger can use it to store additional information about the breakpoint.
+ \brief   Breakpoint
+ \details Causes the processor to enter Debug state.
+ Debug tools can use this to investigate system state when the instruction at a particular address is reached.
+ \param [in]    value  is ignored by the processor.
+ If required, a debugger can use it to store additional information about the breakpoint.
  */
 #define __BKPT(value)                       __breakpoint(value)
 
-
 /**
-  \brief   Reverse bit order of value
-  \details Reverses the bit order of the given value.
-  \param [in]    value  Value to reverse
-  \return               Reversed value
+ \brief   Reverse bit order of value
+ \details Reverses the bit order of the given value.
+ \param [in]    value  Value to reverse
+ \return               Reversed value
  */
 #if       (__CORTEX_M >= 0x03U) || (__CORTEX_SC >= 300U)
   #define __RBIT                          __rbit
 #else
 __attribute__((always_inline)) __STATIC_INLINE uint32_t __RBIT(uint32_t value)
 {
-  uint32_t result;
-  int32_t s = 4 /*sizeof(v)*/ * 8 - 1; /* extra shift needed at end */
+	uint32_t result;
+	int32_t s = 4 /*sizeof(v)*/* 8 - 1; /* extra shift needed at end */
 
-  result = value;                      /* r will be reversed bits of v; first get LSB of v */
-  for (value >>= 1U; value; value >>= 1U)
-  {
-    result <<= 1U;
-    result |= value & 1U;
-    s--;
-  }
-  result <<= s;                        /* shift when v's highest bits are zero */
-  return(result);
+	result = value; /* r will be reversed bits of v; first get LSB of v */
+	for (value >>= 1U; value; value >>= 1U)
+	{
+		result <<= 1U;
+		result |= value & 1U;
+		s--;
+	}
+	result <<= s; /* shift when v's highest bits are zero */
+	return(result);
 }
 #endif
 
-
 /**
-  \brief   Count leading zeros
-  \details Counts the number of leading zeros of a data value.
-  \param [in]  value  Value to count the leading zeros
-  \return             number of leading zeros in value
+ \brief   Count leading zeros
+ \details Counts the number of leading zeros of a data value.
+ \param [in]  value  Value to count the leading zeros
+ \return             number of leading zeros in value
  */
 #define __CLZ                             __clz
-
 
 #if       (__CORTEX_M >= 0x03U) || (__CORTEX_SC >= 300U)
 
@@ -647,14 +631,13 @@ __attribute__((section(".rrx_text"))) __STATIC_INLINE __ASM uint32_t __RRX(uint3
 
 #endif /* (__CORTEX_M >= 0x03U) || (__CORTEX_SC >= 300U) */
 
-/*@}*/ /* end of group CMSIS_Core_InstructionInterface */
-
+/*@}*//* end of group CMSIS_Core_InstructionInterface */
 
 /* ###################  Compiler specific Intrinsics  ########################### */
 /** \defgroup CMSIS_SIMD_intrinsics CMSIS SIMD Intrinsics
-  Access to dedicated SIMD instructions
-  @{
-*/
+ Access to dedicated SIMD instructions
+ @{
+ */
 
 #if (__CORTEX_M >= 0x04U)  /* only for Cortex-M4 and above */
 
@@ -729,6 +712,5 @@ __attribute__((section(".rrx_text"))) __STATIC_INLINE __ASM uint32_t __RRX(uint3
 
 #endif /* (__CORTEX_M >= 0x04) */
 /*@} end of group CMSIS_SIMD_intrinsics */
-
 
 #endif /* __CMSIS_ARMCC_H */

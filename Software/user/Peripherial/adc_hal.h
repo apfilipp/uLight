@@ -8,7 +8,8 @@
 
 #pragma once
 
-typedef enum {
+typedef enum
+{
 	ADC_CR1_MODE_INDEPENDENT = 0,
 	ADC_CR1_MODE_REGSIMULT_INJECSIMULT = (1 << 16),
 	ADC_CR1_MODE_REGSIMULT_ALTERTRIG = (2 << 16),
@@ -34,11 +35,20 @@ extern uint32_t ADC_CLOCK;
 #define ADC_SMPR1(_SAMPLETIME_, _CHANNELNB_)		((_SAMPLETIME_) << (3 * ((_CHANNELNB_) - 10)))
 #define ADC_SMPR2(_SAMPLETIME_, _CHANNELNB_)		((_SAMPLETIME_) << (3 * (_CHANNELNB_)))
 
-typedef enum {
-	SMPR_1CYCLE_5 = 0, SMPR_7CYCLES_5, SMPR_13CYCLES_5, SMPR_28CYCLES_5, SMPR_41CYCLES_5, SMPR_55CYCLES_5, SMPR_71CYCLES_5, SMPR_239CYCLES_5
+typedef enum
+{
+	SMPR_1CYCLE_5 = 0,
+	SMPR_7CYCLES_5,
+	SMPR_13CYCLES_5,
+	SMPR_28CYCLES_5,
+	SMPR_41CYCLES_5,
+	SMPR_55CYCLES_5,
+	SMPR_71CYCLES_5,
+	SMPR_239CYCLES_5
 } ADC_SampleTimes;
 
-typedef enum {
+typedef enum
+{
 	CHNL_0 = 0,
 	CHNL_1,
 	CHNL_2,
@@ -59,16 +69,19 @@ typedef enum {
 	CHNL_VREFINT,
 } ADC_Channels;
 
-typedef enum {
+typedef enum
+{
 	ADC_PhaseV_Normal = 0, ADC_PhaseV_Extended
 } ADC_PhaseV_Modes;
 
-typedef enum {
+typedef enum
+{
 	ADC3_Injected_Update = 0, ADC3_Injected_Compare4 = ADC_CR2_JEXTSEL_0, //TIM1 CC4
 	ADC3_Injected_Software = ADC_CR2_JEXTSEL,
 } ADC3_Inj_Select;
 
-typedef enum {
+typedef enum
+{
 	ADC12_Injected_Update = 0, //
 	ADC12_Injected_Compare1 = ADC_CR2_JEXTSEL_0 | ADC_CR2_JEXTSEL_1, //TIM2 CC1
 	ADC12_Injected_Compare4 = ADC_CR2_JEXTSEL_0, //TIM1 CC4
