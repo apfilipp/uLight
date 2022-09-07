@@ -128,6 +128,14 @@ const LCPS_Entry_t PD_Func[] =
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Beam.HighDuty,			((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("High beam brightness", "Яркость дальнего света"), "%d%%" ),
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("# Horn setup #", "# Настройка гудка #"),	0 ), //
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Horn.HornButton, 		((LCP_Enum_t){0, BtMax}),				LANG("Horn switch", "Кнопка гудка"), buttons ),
+	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("# Dimension front setup #", "# Настройка перед. габ. огней #"),	0 ), //
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Dimension.ButtonF, 		((LCP_Enum_t){0, BtMax}),				LANG("Dimension switch", "Кнопка габ. огней"), buttons ),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Dimension.LowFDuty,		((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("Low brightness", "Яркость выкл. габ. огней "), "%d%%" ),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Dimension.HighFDuty,	((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("High brightness", "Яркость вкл. габ. огней"), "%d%%" ),
+	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("# Dimension back setup #", "# Настройка зад. габ. огней #"),	0 ), //
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Dimension.ButtonB, 		((LCP_Enum_t){0, BtMax}),				LANG("Dimension switch", "Кнопка габ. огней"), buttons ),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Dimension.LowBDuty,		((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("Low brightness", "Яркость выкл. габ. огней "), "%d%%" ),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Dimension.HighBDuty,	((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("High brightness", "Яркость вкл. габ. огней"), "%d%%" ),
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("# Fan control #", "# Настройка вентиляторов #"),	0 ), //
 	folder(LCP_AccessLvl_Any, 	Dir_TsFunctions1, 0, 0  ),
 	folder(LCP_AccessLvl_Any, 	Dir_TsFunctions2, 0, 0  ),
@@ -144,7 +152,7 @@ const LCPS_Entry_t PD_TsFunctions[] =
 };
 
 const char freqs[] = "100Hz\n500Hz\n1kHz\n5kHz\n10kHz\n24kHz(FAN)";
-const char functions[] = LANG("OFF\nON\nBttn\nTurnL\nTurnR\nBrk\nLBeam\nHBeam\nRev\nHorn\nTMot\nTCont\nT1\nT2", "Откл\nВкл\nКноп\nПовЛ\nПовП\nТорм\nБлижС\nДалС\nЗ.ход\nГудок\nTМот\nTКонт\nT1\nT2");
+const char functions[] = LANG("OFF\nON\nBttn\nTurnL\nTurnR\nBrk\nLBeam\nHBeam\nRev\nHorn\nDimsF\nDimsB\nTMot\nTCont\nT1\nT2", "Откл\nВкл\nКноп\nПовЛ\nПовП\nТорм\nБлижС\nДалС\nЗ.ход\nГудок\nГабП\nГабЗ\nTМот\nTКонт\nT1\nT2");
 
 const LCPS_Entry_t PD_Outputs[] =
 {

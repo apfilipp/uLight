@@ -73,6 +73,8 @@ typedef enum
 	Func_HighBeam,
 	Func_Reverse,
 	Func_Horn,
+	Func_DimensionF,
+	Func_DimensionB,
 	Func_MotorT,
 	Func_ContrT,
 	Func_T1,
@@ -137,14 +139,27 @@ typedef struct
 		{
 			Buttons_t LowBeamButton;
 			Buttons_t HighBeamButton;
+
 			enum
 			{
-				Beams_Separate, Beams_Single
+				Beams_Separate,
+				Beams_Single
 			} BeamsMode;
+
 			uint8_t MinDuty;
 			uint8_t LowDuty;
 			uint8_t HighDuty;
 		} Beam;
+
+		struct
+		{
+			Buttons_t ButtonF;
+			Buttons_t ButtonB;
+			uint8_t LowFDuty;
+			uint8_t HighFDuty;
+			uint8_t LowBDuty;
+			uint8_t HighBDuty;
+		} Dimension;
 
 		struct
 		{

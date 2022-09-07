@@ -26,9 +26,9 @@ void LoadDefaultParameters(void)
 	Config.PWMouts.PWM3_4freq = 1;
 	Config.PWMouts.PWM5_6freq = 1;
 	Config.PWMouts.PWM1out = Func_LowBeam;
-	Config.PWMouts.PWM2out = Func_TurnLeft;
+	Config.PWMouts.PWM2out = Func_DimensionF;
 	Config.PWMouts.PWM3out = Func_Brake;
-	Config.PWMouts.PWM4out = Func_TurnLeft;
+	Config.PWMouts.PWM4out = Func_DimensionB;
 	Config.PWMouts.PWM5out = Func_Off;
 	Config.PWMouts.PWM6out = Func_Off;
 
@@ -48,7 +48,14 @@ void LoadDefaultParameters(void)
 
 	Config.Func.Horn.HornButton = BtDisabled;
 
-	Config.Func.Turns.LeftButton = BtInt_2;
+	Config.Func.Dimension.ButtonF = BtInt_2;
+	Config.Func.Dimension.LowFDuty = 0;
+	Config.Func.Dimension.HighFDuty = 100;
+	Config.Func.Dimension.ButtonB = BtInt_2;
+	Config.Func.Dimension.LowBDuty = 0;
+	Config.Func.Dimension.HighBDuty = 25;
+
+	Config.Func.Turns.LeftButton = BtDisabled;
 	Config.Func.Turns.RightButton = BtDisabled;
 	Config.Func.Turns.HighDuty = 100;
 	Config.Func.Turns.OnTime = 1; //100ms

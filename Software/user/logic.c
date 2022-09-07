@@ -37,6 +37,8 @@ typedef struct
 			uint8_t PWM_HighBeam;
 			uint8_t PWM_Reverse;
 			uint8_t PWM_Horn;
+			uint8_t PWM_DimensionF;
+			uint8_t PWM_DimensionB;
 			uint8_t PWM_MotorT;
 			uint8_t PWM_ContrT;
 			uint8_t PWM_T1;
@@ -189,7 +191,7 @@ void LogicTick(uint32_t dt)
 			logicData.PWM_Brake = Config.Func.Brake.LowBrakeDuty;
 
 		//Enable brake lights when VBrake > LowBrakeVoltage
-		if (!can_buttons.Brake && Config.Func.Brake.LowBrakeVoltage > 0)
+		if (Config.Func.Brake.LowBrakeVoltage > 0)
 		{
 			if (ADC_ValuesF.VBrake >= Config.Func.Brake.LowBrakeVoltage)
 				logicData.PWM_Brake = Config.Func.Brake.HighBrakeDuty;
@@ -210,6 +212,18 @@ void LogicTick(uint32_t dt)
 			logicData.PWM_Horn = 100;
 		else
 			logicData.PWM_Horn = 0;
+	}
+
+	{//Dimension
+		if (getButton(Config.Func.Dimension.ButtonF))
+			logicData.PWM_DimensionF = Config.Func.Dimension.HighFDuty;
+		else
+			logicData.PWM_DimensionF = Config.Func.Dimension.LowFDuty;
+
+		if (getButton(Config.Func.Dimension.ButtonB))
+			logicData.PWM_DimensionB = Config.Func.Dimension.HighBDuty;
+		else
+			logicData.PWM_DimensionB = Config.Func.Dimension.LowBDuty;
 	}
 
 	{ // turn
@@ -330,9 +344,7 @@ void LogicTick(uint32_t dt)
 uint8_t getButton(uint8_t button)
 {
 	if (button < BtMax)
-	{
 		return RD.Buttons.ButtonArray[button];
-	}
 	else
 		return 0;
 }

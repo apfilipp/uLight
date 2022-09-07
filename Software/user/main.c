@@ -66,6 +66,9 @@ int main(int argc, char* argv[])
 	LoadDefaultParameters();
 	Storage_Init();
 	RCC_user_init();
+
+	//Storage_Wipe();//!!!
+
 	//port settings loaded here
 	for (uint8_t i = 0; i < Save_number; i++)
 		if (Storage_LoadData(i) == ERROR)

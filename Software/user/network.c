@@ -21,14 +21,12 @@
 #include "levcan_events.h"
 #include "logic.h"
 
-extern void proceedSWU(LC_NodeDescriptor_t *node, LC_Header_t header,
-		void *data, int32_t size);
+extern void proceedSWU(LC_NodeDescriptor_t *node, LC_Header_t header, void *data, int32_t size);
 
 extern const LCPS_Directory_t PD_Directories[];
 extern const uint32_t PD_Directories_size;
 
-void networkShutdown(LC_NodeDescriptor_t *node, LC_Header_t header, void *data,
-		int32_t size);
+void networkShutdown(LC_NodeDescriptor_t *node, LC_Header_t header, void *data, int32_t size);
 
 const LC_Object_t light_node_obj[] =
 { //
