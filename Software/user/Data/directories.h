@@ -88,7 +88,9 @@ const LCPS_Entry_t PD_Inputs[] = {
 };
 
 const char tsensors[] = "Off\nNTC10K3950\nNTC10K3380";
-const LCPS_Entry_t PD_InputsConf[] = {
+
+const LCPS_Entry_t PD_InputsConf[] =
+{
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.InputsCfg.T1, 					((LCP_Enum_t){0, Tsensor_MAX}),	LANG("T-sensor T1 type", "Тип датчика T1"), tsensors),
 	pstd(LCP_AccessLvl_Any, 	LCP_ROLiveUpd,	ADC_ValuesF.T1,							((LCP_Decimal32_t){0, 1, 1, 1}),LANG("# T-sensor T1", "# Термодатчик T1"),	"%s°C" ),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.InputsCfg.T1_Threshold,			((LCP_Uint32_t){0, 250, 1}),	LANG("T1 Threshold (port I7)", "T1 Порог (порт I7)"), "%d°C"),
@@ -101,13 +103,14 @@ const LCPS_Entry_t PD_InputsConf[] = {
 
 	pbool(LCP_AccessLvl_Any, 	LCP_Normal,Config.InputsCfg.SendControl, 												LANG("CAN-Control", "CAN-Управление"), 0),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.InputsCfg.SendPorts, 			((LCP_Enum_t){0, 3}),			LANG("CAN-Ports", "CAN-Порты"), "OFF\nCAN 1-8\nCAN 9-16"  ),
-
 };
 
 #define dutymax   100
 #define dutystep   5
 const char buttons[] = "Off\nON\nI1\nI2\nI3\nI4\nI5\nI6\nI7_T1\nI8_T2\nC1\nC2\nC3\nC4\nC5\nC6\nC7\nC8\nC9\nC10\nC11\nC12\nC13\nC14\nC15\nC16";
-const LCPS_Entry_t PD_Func[] = {
+
+const LCPS_Entry_t PD_Func[] =
+{
 	pbool(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.AloneCANshutdown , 												LANG("Shutdown by CAN", "Отключение по CAN"),0),
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("# Turn signal setup #", "# Настройка поворотников #"),	0 ), //
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Turns.LeftButton, 		((LCP_Enum_t){0, BtMax}),				LANG("Left turn switch", "Кнопка левого поворота"), buttons ),
@@ -138,9 +141,10 @@ const LCPS_Entry_t PD_Func[] = {
 	folder(LCP_AccessLvl_Any, 	Dir_TsFunctions4, 0, 0  ),
 };
 
-const LCPS_Entry_t PD_TsFunctions[] = {
-	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.FanConrol.Tmin[0],			((LCP_Uint32_t){ -30, 125, 5}),		LANG("Temperature min", "Мин. температура"),"%d°C"),
-	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.FanConrol.Tmax[0],			((LCP_Uint32_t){ -30, 125, 5}),		LANG("Temperature max", "Макс. температура"),"%d°C"),
+const LCPS_Entry_t PD_TsFunctions[] =
+{
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.FanConrol.Tmin[0],			((LCP_Int32_t){ -30, 125, 5}),		LANG("Temperature min", "Мин. температура"),"%d°C"),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.FanConrol.Tmax[0],			((LCP_Int32_t){ -30, 125, 5}),		LANG("Temperature max", "Макс. температура"),"%d°C"),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.FanConrol.OutMin[0],		((LCP_Uint32_t){ 0, 100, 5}),		LANG("PWM output min", "ШИМ выход мин."),"%d%%"),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.FanConrol.OutMax[0],		((LCP_Uint32_t){ 0, 100, 5}),		LANG("PWM output max", "ШИМ выход макс."),"%d%%"),
 };
@@ -148,7 +152,8 @@ const LCPS_Entry_t PD_TsFunctions[] = {
 const char freqs[] = "100Hz\n500Hz\n1kHz\n5kHz\n10kHz\n24kHz(FAN)";
 const char functions[] = LANG("OFF\nON\nBttn\nTurnL\nTurnR\nBrk\nLBeam\nHBeam\nRev\nHorn\nTMot\nTCont\nT1\nT2", "Откл\nВкл\nКноп\nПовЛ\nПовП\nТорм\nБлижС\nДалС\nЗ.ход\nГудок\nTМот\nTКонт\nT1\nT2");
 
-const LCPS_Entry_t PD_Outputs[] = {
+const LCPS_Entry_t PD_Outputs[] =
+{
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,										LANG("# Reboot to apply", "#Перезагрузите чтобы применить"),	0 ), //
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.PWMouts.PWM1_2freq, 			((LCP_Enum_t){0, 6}),				LANG("PWM 1-2 freq ", "Частота ШИМ 1-2"), freqs ),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.PWMouts.PWM1out, 			((LCP_Enum_t){0, Func_MAX}),		LANG("Output 1", "Выход 1"), functions ),
@@ -168,7 +173,8 @@ const LCPS_Entry_t PD_Outputs[] = {
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.PWMouts.IO4out, 				((LCP_Enum_t){0, Func_MAX}),		LANG("Output P4", "Выход P4"), 	functions ),
 };
 
-const LCPS_Directory_t PD_Directories[] = {
+const LCPS_Directory_t PD_Directories[] =
+{
 	directory(PD_Root, 0, LCP_AccessLvl_Any, 			LANG("uLight", "микроЛайт")),
 	directory(PD_About, 0, LCP_AccessLvl_Any, 			LANG("Device information", "Информация об устройстве")),
 	directory(PD_Inputs, 0, LCP_AccessLvl_Any, 			LANG("Input values", "Значения входов")),
@@ -182,5 +188,4 @@ const LCPS_Directory_t PD_Directories[] = {
 	directory(PD_TsFunctions, TsensFunc_T2, LCP_AccessLvl_Any,		LANG("T2 T-sensor", "Т-датчик T2")),
 };
 // @formatter:on
-const uint32_t PD_Directories_size = sizeof(PD_Directories)
-		/ sizeof(PD_Directories[0]);
+const uint32_t PD_Directories_size = sizeof(PD_Directories) / sizeof(PD_Directories[0]);

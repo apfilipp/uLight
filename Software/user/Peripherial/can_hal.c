@@ -685,8 +685,7 @@ LC_Return_t LC_HAL_Send(LC_HeaderPacked_t header, uint32_t *data,
 	return (state == LC_Ok) ? LC_Ok : LC_BufferFull;
 }
 
-LC_Return_t LC_HAL_CreateFilterMasks(LC_HeaderPacked_t *reg,
-		LC_HeaderPacked_t *mask, uint16_t count)
+LC_Return_t LC_HAL_CreateFilterMasks(LC_HeaderPacked_t *reg, LC_HeaderPacked_t *mask, uint16_t count)
 {
 
 	CAN_FilterEditOn();
@@ -711,14 +710,18 @@ LC_Return_t LC_HAL_CreateFilterMasks(LC_HeaderPacked_t *reg,
 }
 
 #if defined(STM32F405xx) || defined(STM32F446xx)
-void CAN1_RX0_IRQHandler(void) {
+void CAN1_RX0_IRQHandler(void)
+{
 	receiveIRQ();
 }
-/*void CAN1_RX1_IRQHandler(void) {
-	receiveIRQ();
 
- }*/
-void CAN1_TX_IRQHandler(void) {
+/*void CAN1_RX1_IRQHandler(void)
+{
+	receiveIRQ();
+}*/
+
+void CAN1_TX_IRQHandler(void)
+{
 	transmitIRQ();
 }
 #endif
@@ -728,6 +731,7 @@ void USB_LP_CAN1_RX0_IRQHandler(void)
 {
 	receiveIRQ();
 }
+
 void USB_HP_CAN1_TX_IRQHandler(void)
 {
 	transmitIRQ();
@@ -735,7 +739,8 @@ void USB_HP_CAN1_TX_IRQHandler(void)
 #endif
 
 #ifdef LEVCAN_USE_RTOS_QUEUE
-void txCanTask(void *pvParameters) {
+void txCanTask(void *pvParameters)
+{
 	(void) pvParameters;
 
 	static can_packet_t packet_from_q = { 0 };
@@ -799,7 +804,7 @@ void transmitIRQ(void)
 	portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 #else
 	txFifoProceed();
-	CAN1->TSR |= CAN_TSR_TXOK0 | CAN_TSR_TXOK1 | CAN_TSR_TXOK2;
+	CAN1->TSR |= CAN_TSR_RQCP0 | CAN_TSR_RQCP1 | CAN_TSR_RQCP2;
 #endif
 }
 

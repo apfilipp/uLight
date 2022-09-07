@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "diag/Trace.h"
 #include "stm32f10x.h"
 #include "armutils.h"
@@ -23,7 +21,7 @@
 #define sDEBUG(string) string
 #endif
 
-const Version_t VersionControl = { __DATE__, sDEBUG("0.6.2") };
+const Version_t VersionControl = { __DATE__, sDEBUG("0.6.3") };
 
 typedef struct
 {
@@ -307,7 +305,7 @@ void EXTI1_IRQHandler(void)
 	{
 		RD.Menu.SWUpdate = 0;
 		trace_printf("Reboot to boot\n");
-		GoToBoot(1, LC_GetMyNodeName(0).NodeID, -1);
+		GoToBoot(1, LC_GetMyNodeName(0).NodeID, -1);//TODO add server id?
 	}
 	if (RD.Menu.Reboot == 1)
 	{
@@ -352,30 +350,27 @@ void EXTI1_IRQHandler(void)
 void delay_ms(uint32_t delay)
 {
 	uint32_t saved = SystemTick;
-	while (SystemTick - saved < delay)
-		;
+	while (SystemTick - saved < delay);
 }
 
-void proceedSWU(LC_NodeDescriptor_t *node, LC_Header_t header, void *data,
-		int32_t size)
+void proceedSWU(LC_NodeDescriptor_t *node, LC_Header_t header, void *data, int32_t size)
 {
 	(void) node;
 	(void) size;
 	switch (header.MsgID)
 	{
-	case LC_SYS_SWUpdate:
-	{
-		if (data && *((uint32_t*) data) == PROGRAM_KEY)
+		case LC_SYS_SWUpdate:
 		{
-			GoToBoot(1, LC_GetMyNodeName(0).NodeID, header.Source);
+			if (data && *((uint32_t*) data) == PROGRAM_KEY)
+				GoToBoot(1, LC_GetMyNodeName(0).NodeID, header.Source);
 		}
-	}
 		break;
 	}
 }
 
 #ifdef DEBUG
-void assert_failed(char *file, uint32_t line) {
+void assert_failed(char *file, uint32_t line)
+{
 	trace_printf("Assert in: file %s on line %d\n", file, line);
 }
 #endif

@@ -29,11 +29,13 @@
 // These functions are redefined locally, to avoid references to some
 // heavy implementations in the standard C++ library.
 // ----------------------------------------------------------------------------
-#include <cstdlib>
+
 #include <sys/types.h>
 #include "diag/Trace.h"
 
 // ----------------------------------------------------------------------------
+
+void __attribute__((weak,noreturn)) _abort(void);
 
 namespace __gnu_cxx
 {
@@ -44,7 +46,7 @@ __verbose_terminate_handler();
 void __verbose_terminate_handler()
 {
 	trace_puts(__func__);
-	abort();
+	_abort();
 }
 }
 
@@ -59,7 +61,7 @@ __cxa_pure_virtual();
 void __cxa_pure_virtual()
 {
 	trace_puts(__func__);
-	abort();
+	_abort();
 }
 }
 

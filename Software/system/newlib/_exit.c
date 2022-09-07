@@ -41,8 +41,7 @@ __reset_hardware(void);
 
 // Forward declaration
 
-void
-_exit(int code);
+void _exit(int code);
 
 // ----------------------------------------------------------------------------
 
@@ -68,7 +67,7 @@ __attribute__((weak)) _exit(int code __attribute__((unused)))
 // ----------------------------------------------------------------------------
 
 void
-__attribute__((weak,noreturn)) abort(void)
+__attribute__((weak,noreturn)) _abort(void)
 {
 	trace_puts("abort(), exiting...");
 

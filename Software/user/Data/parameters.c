@@ -11,16 +11,14 @@
 volatile ConfigStruct_t Config;
 volatile DataStruct_t Data;
 volatile LifeDataStruct_t LifeData;
-volatile RuntimeStruct_t RD =
-{ 0 };
+volatile RuntimeStruct_t RD = { 0 };
 
 const intptr_t *Storage_Address[Save_number] =
 { (intptr_t*) &Data, (intptr_t*) &Config, (intptr_t*) &LifeData };
 const uint16_t Storage_Size[Save_number] =
 { sizeof(Data), sizeof(Config), sizeof(LifeData) };
 
-const uint16_t PWMIO_Freq[] =
-{ 100, 500, 1000, 5000, 10000, 24000 };
+const uint16_t PWMIO_Freq[] = { 100, 500, 1000, 5000, 10000, 24000 };
 
 void LoadDefaultParameters(void)
 {
