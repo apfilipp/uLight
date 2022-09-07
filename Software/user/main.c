@@ -21,7 +21,7 @@
 #define sDEBUG(string) string
 #endif
 
-const Version_t VersionControl = { __DATE__, sDEBUG("0.6.3") };
+const Version_t VersionControl = { __DATE__, sDEBUG("0.6.3af") };
 
 typedef struct
 {
@@ -29,6 +29,7 @@ typedef struct
 	uint8_t NodeID;
 	uint8_t ServerID;
 } BootCommand_t;
+
 #define BootCommand ((BootCommand_t*)CHECK_DWORD)
 
 // Private functions
@@ -44,7 +45,7 @@ void delay_ms(uint32_t delay);
 volatile uint32_t SystemTick = 0;
 volatile uint32_t ADC_CLOCK;
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
 	(void) argv;
 	(void) argc;
@@ -67,12 +68,8 @@ int main(int argc, char *argv[])
 	RCC_user_init();
 	//port settings loaded here
 	for (uint8_t i = 0; i < Save_number; i++)
-	{
 		if (Storage_LoadData(i) == ERROR)
-		{
 			Storage_SaveData(i); //length mismatch
-		}
-	}
 
 	PWMoutInit();
 	GPIO_user_init();
@@ -83,10 +80,7 @@ int main(int argc, char *argv[])
 	SysTick_Config(SystemCoreClock / 1000);
 	NVIC_SetPriority(SysTick_IRQn, 1); //almost highest
 
-	while (1)
-	{
-
-	}
+	while (1) { }
 }
 
 void updateButtons(void)
@@ -102,15 +96,11 @@ void updateButtons(void)
 
 	//virtual input for t-sensors
 	//get value and invert if needed. with 1C hysteresis
-	uint8_t in7_t1_bool = ADC_ValuesF.T1
-			> ((int32_t) Config.InputsCfg.T1_Threshold * 10
-					- RD.Buttons.Int7_T1 * 10);
+	uint8_t in7_t1_bool = ADC_ValuesF.T1 > ((int32_t)Config.InputsCfg.T1_Threshold * 10	- RD.Buttons.Int7_T1 * 10);
 	in7_t1_bool = in7_t1_bool ^ Config.InputsCfg.T1_ThrMode;
 	RD.Buttons.Int7_T1 = in7_t1_bool;
 
-	uint8_t in8_t2_bool = ADC_ValuesF.T2
-			> ((int32_t) Config.InputsCfg.T2_Threshold * 10
-					- RD.Buttons.Int8_T2 * 10);
+	uint8_t in8_t2_bool = ADC_ValuesF.T2 > ((int32_t)Config.InputsCfg.T2_Threshold * 10 - RD.Buttons.Int8_T2 * 10);
 	in8_t2_bool = in8_t2_bool ^ Config.InputsCfg.T2_ThrMode;
 	RD.Buttons.Int8_T2 = in8_t2_bool;
 }
@@ -218,18 +208,6 @@ void GPIO_user_init(void)
 
 void GPIO_user_deinit(void)
 {
-	//AFIO->MAPR |= AFIO_MAPR_CAN_REMAP_1 | AFIO_MAPR_TIM3_REMAP_PARTIALREMAP | AFIO_MAPR_TIM2_REMAP_PARTIALREMAP1;
-
-	/*GPIO_PIN_SETUP(P_IN1_Pin, P_IN1_GPIO_Port, GPIO_MODE_IN);
-	 GPIO_PIN_SETUP(P_IN2_Pin, P_IN2_GPIO_Port, GPIO_MODE_IN);
-	 GPIO_PIN_SETUP(P_IN3_Pin, P_IN3_GPIO_Port, GPIO_MODE_IN);
-	 GPIO_PIN_SETUP(P_IN4_Pin, P_IN4_GPIO_Port, GPIO_MODE_IN);
-	 GPIO_PIN_SETUP(P_IN5_Pin, P_IN5_GPIO_Port, GPIO_MODE_IN);
-	 GPIO_PIN_SETUP(P_IN6_Pin, P_IN6_GPIO_Port, GPIO_MODE_IN);
-
-	 GPIO_PIN_SETUP(USB_PULLUP_Pin, USB_PULLUP_GPIO_Port, GPIO_MODE_AN);
-	 GPIO_PIN_SETUP(P_USB_DP_Pin, P_USB_DP_GPIO_Port, GPIO_MODE_AN);*/
-
 	GPIO_PIN_SETUP(P_OUT1_Pin, P_OUT1_GPIO_Port, GPIO_MODE_AN);
 	GPIO_PIN_SETUP(P_OUT2_Pin, P_OUT2_GPIO_Port, GPIO_MODE_AN);
 	GPIO_PIN_SETUP(P_OUT3_Pin, P_OUT3_GPIO_Port, GPIO_MODE_AN);
@@ -272,8 +250,8 @@ void GoToBoot(uint8_t bootloader, int8_t node_id, int8_t server_id)
 void SysTick_Handler()
 {
 	static uint32_t delay = 0;
-	SystemTick++;
 
+	SystemTick++;
 	EXTI->SWIER = 1; //CAN
 
 	delay++;
@@ -317,8 +295,7 @@ void EXTI1_IRQHandler(void)
 	{
 		Storage_SaveAll();
 		RD.Menu.Save = 0;
-		LC_EventSend(LevcanNodePtr, "Saved!", HWConfig.Name, LC_EB_Ok,
-				LC_Broadcast_Address);
+		LC_EventSend(LevcanNodePtr, "Saved!", HWConfig.Name, LC_EB_Ok, LC_Broadcast_Address);
 	}
 	if (RD.Menu.LoadDefaults)
 	{

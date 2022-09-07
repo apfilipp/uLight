@@ -51,12 +51,9 @@ uint8_t getButton(uint8_t button);
 //variables
 //const char functions[] = "OFF\nON\nBTTN\nTL\nTR\nBK";
 uint32_t logic_tick = 0;
-LC_Obj_Buttons_t can_buttons =
-{ 0 };
-LC_Obj_Temperature_t can_contrTemp =
-{ 0 };
-logicData_t logicData =
-{ 0 };
+LC_Obj_Buttons_t can_buttons = { 0 };
+LC_Obj_Temperature_t can_contrTemp = { 0 };
+logicData_t logicData = { 0 };
 //int brightness = 0;
 
 void LogicTick(uint32_t dt)
@@ -71,23 +68,29 @@ void LogicTick(uint32_t dt)
 		if (Config.InputsCfg.SendControl && sent_data >= 20)
 		{
 			//50hz throttle and brake
-			static LC_Obj_ThrottleV_t throttle =
-			{ 0 };
-			static LC_Obj_BrakeV_t brake =
-			{ 0 };
+			static LC_Obj_ThrottleV_t throttle = { 0 };
+			static LC_Obj_BrakeV_t brake = { 0 };
 
 			const LC_ObjectRecord_t throttle_send =
-			{ .Address = &throttle, .Size = sizeof(throttle), .Attributes.TCP =
-					0, .Attributes.Priority = LC_Priority_Mid, .NodeID =
-					LC_Broadcast_Address };
+			{
+				.Address = &throttle,
+				.Size = sizeof(throttle),
+				.Attributes.TCP = 0,
+				.Attributes.Priority = LC_Priority_Mid,
+				.NodeID = LC_Broadcast_Address
+			};
+
 			const LC_ObjectRecord_t brake_send =
-			{ .Address = &brake, .Size = sizeof(brake), .Attributes.TCP = 0,
-					.Attributes.Priority = LC_Priority_Mid, .NodeID =
-							LC_Broadcast_Address };
+			{
+				.Address = &brake,
+				.Size = sizeof(brake),
+				.Attributes.TCP = 0,
+				.Attributes.Priority = LC_Priority_Mid,
+				.NodeID = LC_Broadcast_Address
+			};
 
 			throttle.ThrottleV = ADC_ValuesF.VThrottle;
-			LC_SendMessage(LevcanNodePtr, (void*) &throttle_send,
-					LC_Obj_ThrottleV);
+			LC_SendMessage(LevcanNodePtr, (void*) &throttle_send, LC_Obj_ThrottleV);
 
 			brake.BrakeV = ADC_ValuesF.VBrake;
 			LC_SendMessage(LevcanNodePtr, (void*) &brake_send, LC_Obj_BrakeV);
@@ -102,11 +105,15 @@ void LogicTick(uint32_t dt)
 		if (Config.InputsCfg.SendPorts && sent_data >= 20)
 		{
 			static LC_Obj_Buttons_t buttons;
-
 			const LC_ObjectRecord_t btns_send =
-			{ .Address = &buttons, .Size = sizeof(buttons), .Attributes.TCP = 0,
-					.Attributes.Priority = LC_Priority_Mid, .NodeID =
-							LC_Broadcast_Address };
+			{
+				.Address = &buttons,
+				.Size = sizeof(buttons),
+				.Attributes.TCP = 0,
+				.Attributes.Priority = LC_Priority_Mid,
+				.NodeID = LC_Broadcast_Address
+			};
+
 			memset(&buttons, 0, sizeof(buttons));
 
 			if (Config.InputsCfg.SendPorts == 1)
@@ -135,9 +142,7 @@ void LogicTick(uint32_t dt)
 			LC_SendMessage(LevcanNodePtr, (void*) &btns_send, LC_Obj_Buttons);
 		}
 		if (sent_data >= 20)
-		{
 			sent_data = 0;
-		}
 	}
 	{	//Beam function
 		int lbt = getButton(Config.Func.Beam.LowBeamButton);
@@ -182,6 +187,15 @@ void LogicTick(uint32_t dt)
 			logicData.PWM_Brake = Config.Func.Brake.HighBrakeDuty;
 		else
 			logicData.PWM_Brake = Config.Func.Brake.LowBrakeDuty;
+
+		//Enable brake lights when VBrake > LowBrakeVoltage
+		if (!can_buttons.Brake && Config.Func.Brake.LowBrakeVoltage > 0)
+		{
+			if (ADC_ValuesF.VBrake >= Config.Func.Brake.LowBrakeVoltage)
+				logicData.PWM_Brake = Config.Func.Brake.HighBrakeDuty;
+			else
+				logicData.PWM_Brake = Config.Func.Brake.LowBrakeDuty;
+		}
 	}
 
 	{ //Reverse
@@ -232,16 +246,12 @@ void LogicTick(uint32_t dt)
 			state = 0;
 		}
 
-		if (state == 0
-				&& (getButton(Config.Func.Turns.LeftButton)
-						|| getButton(Config.Func.Turns.WarningButton)))
+		if (state == 0 && (getButton(Config.Func.Turns.LeftButton) || getButton(Config.Func.Turns.WarningButton)))
 			logicData.PWM_TurnLeft = Config.Func.Turns.HighDuty;
 		else
 			logicData.PWM_TurnLeft = 0;
 
-		if (state == 0
-				&& (getButton(Config.Func.Turns.RightButton)
-						|| getButton(Config.Func.Turns.WarningButton)))
+		if (state == 0 && (getButton(Config.Func.Turns.RightButton) || getButton(Config.Func.Turns.WarningButton)))
 			logicData.PWM_TurnRight = Config.Func.Turns.HighDuty;
 		else
 			logicData.PWM_TurnRight = 0;
@@ -288,9 +298,7 @@ void LogicTick(uint32_t dt)
 		do
 		{
 			nname = LC_GetActiveNodes(LevcanNodePtr, &pos);
-			if (nname.NodeID != LC_Broadcast_Address
-					&& (nname.DeviceType == LC_Device_Controller
-							|| nname.DeviceType == LC_Device_Display))
+			if (nname.NodeID != LC_Broadcast_Address && (nname.DeviceType == LC_Device_Controller || nname.DeviceType == LC_Device_Display))
 			{
 				controller_or_lcd = 1;
 				break;
@@ -303,9 +311,7 @@ void LogicTick(uint32_t dt)
 	for (int i = 0; i < 10; i++)
 	{
 		if (shutdown)
-		{
 			PWMsetOutput(i, 0);
-		}
 		else
 		{
 			uint8_t function = Config.PWMouts.PWMoutArray[i];
@@ -331,16 +337,13 @@ uint8_t getButton(uint8_t button)
 		return 0;
 }
 
-void LogicProcessData(LC_NodeDescriptor_t *node, LC_Header_t header, void *data,
-		int32_t size)
+void LogicProcessData(LC_NodeDescriptor_t *node, LC_Header_t header, void *data, int32_t size)
 {
 	(void) node;
 	(void) size;
 	static uint32_t last_tick_updated = 0;
-	static LC_Obj_Buttons_t buttons =
-	{ 0 };
-	static LC_Obj_Temperature_t controller_temp =
-	{ INT16_MIN, INT16_MIN, INT16_MIN, INT16_MIN };
+	static LC_Obj_Buttons_t buttons = { 0 };
+	static LC_Obj_Temperature_t controller_temp = { INT16_MIN, INT16_MIN, INT16_MIN, INT16_MIN };
 
 	switch (header.MsgID)
 	{
@@ -381,18 +384,12 @@ void LogicProcessData(LC_NodeDescriptor_t *node, LC_Header_t header, void *data,
 
 		buttons.Buttons = 0;
 		buttons.ExtraButtons = 0;
-		controller_temp = (LC_Obj_Temperature_t
-				)
-				{ INT16_MIN, INT16_MIN, INT16_MIN, INT16_MIN };
+		controller_temp = (LC_Obj_Temperature_t) { INT16_MIN, INT16_MIN, INT16_MIN, INT16_MIN };
 		last_tick_updated = logic_tick;
 
 		for (int i = 0; i < 16; i++)
-		{
-			RD.Buttons.ButtonArray[i + BtExt_1] =
-					(can_buttons.ExtraButtons & (1 << i)) ? 1 : 0;
-		}
-		LC_SendRequest(LevcanNodePtr, LC_Broadcast_Address,
-				LC_Obj_ActiveFunctions);
+			RD.Buttons.ButtonArray[i + BtExt_1] = (can_buttons.ExtraButtons & (1 << i)) ? 1 : 0;
+		LC_SendRequest(LevcanNodePtr, LC_Broadcast_Address, LC_Obj_ActiveFunctions);
 		LC_SendRequest(LevcanNodePtr, LC_Broadcast_Address, LC_Obj_Temperature);
 	}
 }

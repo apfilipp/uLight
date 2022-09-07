@@ -104,7 +104,6 @@ typedef struct
 {
 	struct
 	{
-
 		struct
 		{
 			Buttons_t LeftButton;
@@ -125,6 +124,7 @@ typedef struct
 		{
 			uint8_t LowBrakeDuty;
 			uint8_t HighBrakeDuty;
+			uint16_t LowBrakeVoltage;
 		} Brake;
 
 		struct

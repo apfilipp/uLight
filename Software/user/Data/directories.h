@@ -10,10 +10,8 @@
 #include "parameters.h"
 #include "adc.h"
 
-//extern const LCPS_Entry_t PD_Root[];
 extern LCPS_Entry_t PD_Root[], PD_About[];
-extern const LCPS_Entry_t PD_Inputs[], PD_Outputs[], PD_Menu[], PD_Func[],
-		PD_InputsConf[], PD_TsFunctions[];
+extern const LCPS_Entry_t PD_Inputs[], PD_Outputs[], PD_Menu[], PD_Func[], PD_InputsConf[], PD_TsFunctions[];
 
 uint32_t dummy;
 
@@ -30,12 +28,11 @@ uint32_t dummy;
 #define LCP_ROLiveUpd (LCP_ReadOnly | LCP_LiveUpdate)
 #define LCP_NLiveUpd (LCP_Normal | LCP_LiveUpdate)
 
-const LCP_Uint32_t zeroU32_t =
-{ 0, 0, 0 };
+const LCP_Uint32_t zeroU32_t = { 0, 0, 0 };
 
 // @formatter:off
-LCPS_Entry_t PD_Root[]
-= {
+LCPS_Entry_t PD_Root[] =
+{
 	pbool(LCP_AccessLvl_Any, 	LCP_Normal,		RD.Menu.Save , 	LANG("Save settings", "Сохранить настройки"),0 ),
 	folder(LCP_AccessLvl_Any, 	Dir_Menu, 		0, 0  ),
 	folder(LCP_AccessLvl_Any, 	Dir_InputsConf, 0, 0  ),
@@ -46,32 +43,25 @@ LCPS_Entry_t PD_Root[]
 };
 
 const char conf_imports[] = LANG("?\n1\n2\n3\n4\n5\n6\n7\n8\n9\nLoading...", "?\n1\n2\n3\n4\n5\n6\n7\n8\n9\nЗагрузка...");
-const LCPS_Entry_t PD_Menu[]
-= {
-//	pstd(LCP_AccessLvl_Any, 	LCP_NLiveUpd,	RD.Menu.ImportConf, 			((LCP_Enum_t){0, 9}),	LANG("Import config.", "Импорт конфигурации"), conf_imports),
-//	pstd(LCP_AccessLvl_Any, 	LCP_NLiveUpd,	RD.Menu.ExportConf, 			((LCP_Enum_t){0, 9}),	LANG("Export config.", "Экспорт конфигурации"), conf_imports),
-//	pstd(LCP_AccessLvl_Any, 	LCP_NLiveUpd,	RD.Menu.BackupConf, 			((LCP_Enum_t){0, 1}),	LANG("Backup config.", "Бэкап конфигурации"), LANG("?\nYes\nLoading...", "?\nВкл\nСохранение...")),
+
+const LCPS_Entry_t PD_Menu[] =
+{
 	pbool(LCP_AccessLvl_Any, 	LCP_NLiveUpd,	RD.Menu.Reboot , 				LANG("Reboot", "Перезагрузка"),0 ),
-//	pbool(LCP_AccessLvl_Any, 	LCP_NLiveUpd,	RD.Menu.ResetWHusage , 			LANG("Reset Wh usage", "Сбросить расход Wh"),0 ),
-//	pbool(LCP_AccessLvl_Any, 	LCP_NLiveUpd,	RD.Menu.ResetStats , 			LANG("Reset stats", "Сбросить статистику "),0 ),
 	pbool(LCP_AccessLvl_Any, 	LCP_NLiveUpd,	RD.Menu.LoadDefaults , 			LANG("Load defaults", "Сбросить настройки"),0 ),
-//	pbool(LCP_AccessLvl_Any, 	LCP_NLiveUpd,	RD.Menu.WipeData , 				LANG("Erase data storage", "Стереть банки памяти"),0 ),
 	pbool(LCP_AccessLvl_Any, 	LCP_NLiveUpd,	RD.Menu.SWUpdate, 				LANG("Update firmware", "Обновить прошивку"),0 ),
 };
 
-LCPS_Entry_t PD_About[] = {
+LCPS_Entry_t PD_About[] =
+{
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		0,	0 ),
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("Firmware date", "Дата прошивки"), 0 ),
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("Firmware ver.", "Версия прошивки"), 0 ),
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("Loader date", "Дата загрузчика"), 0 ),
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("Loader version", "Версия загрузчика"), 0 ),
-	//pstd(LCP_AccessLvl_Any, 	LCP_Normal | LCP_ReadOnly,		LifeData.PowerCycleCount,	zeroU32_t,	LANG("Power cycle", "Включений"), 0),
-	//pstd(LCP_AccessLvl_Any, 	LCP_Normal | LCP_ReadOnly,		RD.Lifetime.Min,			zeroU32_t,	LANG("Power-on time", "Время работы"), LANG("%s min", "%d мин.")),
-	//pstd(LCP_AccessLvl_Any, 	LCP_Normal | LCP_ReadOnly,		RD.Lifetime.Hours,			zeroU32_t,	"-", 	LANG("%s h", "%d ч.")),
-	//pstd(LCP_AccessLvl_Any, 	LCP_Normal | LCP_ReadOnly,		RD.Lifetime.Days,			zeroU32_t,	"--", 	LANG("%s days", "%d дн.")),
 };
 
-const LCPS_Entry_t PD_Inputs[] = {
+const LCPS_Entry_t PD_Inputs[] =
+{
 	pstd(LCP_AccessLvl_Any, 	LCP_ROLiveUpd,		ADC_ValuesF.Amp,		((LCP_Decimal32_t){0,0,0,3}),	LANG("Current", "Ток"),			"%s A" ),
 	pstd(LCP_AccessLvl_Any, 	LCP_ROLiveUpd,		ADC_ValuesF.V12,		((LCP_Decimal32_t){0,0,0,3}),	LANG("Voltage", "Напряжение"),	"%s V" ),
 	pstd(LCP_AccessLvl_Any, 	LCP_ROLiveUpd,		ADC_ValuesF.VThrottle,	((LCP_Decimal32_t){0,0,0,3}),	LANG("Throttle", "Газ"),		"%s V" ),
@@ -107,6 +97,9 @@ const LCPS_Entry_t PD_InputsConf[] =
 
 #define dutymax   100
 #define dutystep   5
+#define volt_max 4400
+#define volt_step 25
+
 const char buttons[] = "Off\nON\nI1\nI2\nI3\nI4\nI5\nI6\nI7_T1\nI8_T2\nC1\nC2\nC3\nC4\nC5\nC6\nC7\nC8\nC9\nC10\nC11\nC12\nC13\nC14\nC15\nC16";
 
 const LCPS_Entry_t PD_Func[] =
@@ -122,6 +115,7 @@ const LCPS_Entry_t PD_Func[] =
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("# Brake signal setup #", "# Настройка тормоза #"),	0 ), //
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.LowBrakeDuty,		((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("Off-brake brightness", "Яркость без торможения"), "%d%%" ),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.HighBrakeDuty,	((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("On-brake brightness", "Яркость торможения"), "%d%%" ),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.LowBrakeVoltage,	((LCP_Uint32_t){0, volt_max, volt_step}),	LANG("On-brake voltage", "Напряжение руч. тормоза"), "%d V" ),
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("# Reverse signal setup #", "# Настройка заднего хода #"),	0 ), //
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Reverse.LowDuty,		((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("Off-reverse bright.", "Яркость без з.хода"), "%d%%" ),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Reverse.HighDuty,		((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("On-reverse bright.", "Яркость заднего хода"), "%d%%" ),

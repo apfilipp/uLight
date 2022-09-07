@@ -1,5 +1,5 @@
 /*
- * This file is part of the ÂµOS++ distribution.
+ * This file is part of the µOS++ distribution.
  *   (https://github.com/micro-os-plus)
  * Copyright (c) 2014 Liviu Ionescu.
  *
@@ -32,14 +32,6 @@
  * To make use of the multi-region initialisations, define
  * OS_INCLUDE_STARTUP_INIT_MULTIPLE_RAM_SECTIONS for the _startup.c file.
  */
-
-MEMORY
-{
-  BOOT (rx) : ORIGIN = 0x08000000, LENGTH = 14K
-  STORAGE (rx) : ORIGIN = 0x08000000 + 14K, LENGTH = 6K
-  FLASH (rx) : ORIGIN = 0x08000000 + 20K, LENGTH = 64K - 20K
-  RAM (rwx) : ORIGIN = 0x20000020, LENGTH = 20K-32
-}
 
 /*
  * The '__stack' definition is required by crt0, do not remove it.
