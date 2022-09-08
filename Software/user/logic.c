@@ -185,19 +185,38 @@ void LogicTick(uint32_t dt)
 	}
 
 	{ //Brake
-		if (can_buttons.Brake)
+		static uint32_t brake_timer = 0;
+		static uint8_t state = 0;
+
+		uint8_t brake_signal = can_buttons.Brake || (Config.Func.Brake.LowBrakeVoltage > 0 && ADC_ValuesF.VBrake >= Config.Func.Brake.LowBrakeVoltage);
+		if (brake_signal)
+		{
+			brake_timer += dt;
+
+			uint32_t max_time = 0;
+			if (!state)
+				max_time = Config.Func.Brake.OnTime * 100;
+			else
+				max_time = Config.Func.Brake.OffTime * 100;
+
+			if (brake_timer >= max_time)
+			{
+				brake_timer = 0;
+				state = !state;
+			}
+			if (Config.Func.Brake.OffTime == 0)
+				state = 0;
+		}
+		else
+		{
+			brake_timer = 0;
+			state = 0;
+		}
+
+		if (state == 0 && brake_signal)
 			logicData.PWM_Brake = Config.Func.Brake.HighBrakeDuty;
 		else
 			logicData.PWM_Brake = Config.Func.Brake.LowBrakeDuty;
-
-		//Enable brake lights when VBrake > LowBrakeVoltage
-		if (Config.Func.Brake.LowBrakeVoltage > 0)
-		{
-			if (ADC_ValuesF.VBrake >= Config.Func.Brake.LowBrakeVoltage)
-				logicData.PWM_Brake = Config.Func.Brake.HighBrakeDuty;
-			else
-				logicData.PWM_Brake = Config.Func.Brake.LowBrakeDuty;
-		}
 	}
 
 	{ //Reverse
