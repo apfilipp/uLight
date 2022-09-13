@@ -165,33 +165,40 @@ void LogicTick(uint32_t dt)
 	uint8_t brake_signal = can_buttons.Brake || (Config.Func.Brake.LowBrakeVoltage > 0 && ADC_ValuesF.VBrake >= Config.Func.Brake.LowBrakeVoltage);
 	{ //Brake
 		static uint32_t brake_timer = 0;
-		static uint8_t state = 0;
+		static uint8_t brake_state = 0;
+		static uint8_t strob_count = 0;
 
 		if (brake_signal)
 		{
-			brake_timer += dt;
-
-			uint32_t max_time = 0;
-			if (!state)
-				max_time = Config.Func.Brake.OnTime * 100;
-			else
-				max_time = Config.Func.Brake.OffTime * 100;
-
-			if (brake_timer >= max_time)
+			if (Config.Func.Brake.StrobCount > 0 && Config.Func.Brake.StrobCount >= strob_count)
 			{
-				brake_timer = 0;
-				state = !state;
+				uint32_t max_time = 0;
+
+				brake_timer += dt;
+				if (!brake_state)
+					max_time = Config.Func.Brake.OnTicks * 10;
+				else
+					max_time = Config.Func.Brake.OffTicks * 10;
+
+				if (brake_timer >= max_time)
+				{
+					brake_timer = 0;
+					brake_state = !brake_state;
+					if (brake_state == 1)
+						++strob_count;
+				}
 			}
-			if (Config.Func.Brake.OffTime == 0)
-				state = 0;
+			else
+				brake_state = 1;
 		}
 		else
 		{
 			brake_timer = 0;
-			state = 0;
+			strob_count = 0;
+			brake_state = 0;
 		}
 
-		if (state == 0 && brake_signal)
+		if (brake_state == 1 && brake_signal)
 			logicData.PWM_Brake = Config.Func.Brake.HighBrakeDuty;
 		else
 			logicData.PWM_Brake = Config.Func.Brake.LowBrakeDuty;
@@ -308,8 +315,7 @@ void LogicTick(uint32_t dt)
 	if (Config.Func.AloneCANshutdown)
 	{
 		uint16_t pos = 0;
-		LC_NodeShortName_t nname =
-		{ 0 };
+		LC_NodeShortName_t nname = { 0 };
 		int controller_or_lcd = 0;
 		do
 		{

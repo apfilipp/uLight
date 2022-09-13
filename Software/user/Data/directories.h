@@ -46,8 +46,8 @@ const char conf_imports[] = LANG("?\n1\n2\n3\n4\n5\n6\n7\n8\n9\nLoading...", "?\
 
 const LCPS_Entry_t PD_Menu[] =
 {
-	pbool(LCP_AccessLvl_Any, 	LCP_NLiveUpd,	RD.Menu.Reboot , 				LANG("Reboot", "Перезагрузка"),0 ),
-	pbool(LCP_AccessLvl_Any, 	LCP_NLiveUpd,	RD.Menu.LoadDefaults , 			LANG("Load defaults", "Сбросить настройки"),0 ),
+	pbool(LCP_AccessLvl_Any, 	LCP_NLiveUpd,	RD.Menu.Reboot, 				LANG("Reboot", "Перезагрузка"),0 ),
+	pbool(LCP_AccessLvl_Any, 	LCP_NLiveUpd,	RD.Menu.LoadDefaults, 			LANG("Load defaults", "Сбросить настройки"),0 ),
 	pbool(LCP_AccessLvl_Any, 	LCP_NLiveUpd,	RD.Menu.SWUpdate, 				LANG("Update firmware", "Обновить прошивку"),0 ),
 };
 
@@ -116,8 +116,9 @@ const LCPS_Entry_t PD_Func[] =
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.LowBrakeDuty,		((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("Off-brake brightness", "Яркость без торможения"), "%d%%" ),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.HighBrakeDuty,	((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("On-brake brightness", "Яркость торможения"), "%d%%" ),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.LowBrakeVoltage,	((LCP_Uint32_t){0, volt_max, volt_step}),	LANG("On-brake voltage", "Напряжение руч. тормоза"), "%d V" ),
-	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.OnTime,			((LCP_Decimal32_t){0, 10, 1, 1}),		LANG("Brake on-time", "Время вкл. стоп сигнала"), "%ssec" ),
-	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.OffTime,			((LCP_Decimal32_t){0, 10, 1, 1}),		LANG("Brake off-time", "Время выкл. стоп сигнала"), "%ssec" ),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.OnTicks,			((LCP_Uint32_t){0, 254, 1}),		LANG("Brake on-ticks", "Тики вкл. стоп сигнала"), "%stick"),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.OffTicks,			((LCP_Uint32_t){0, 254, 1}),		LANG("Brake off-ticks", "Тики выкл. стоп сигнала"), "%stick"),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.StrobCount,		((LCP_Uint32_t){0, 254, 1}),		LANG("Brake strob count", "Кол-во повт. строба"), "%s"),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.Brake_Mode,		((LCP_Enum_t){0, 2}),		LANG("Use back dimension", "Исп. зад. габарит"), LANG("Off\nON", "Выкл.\nВкл.")),
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("# Reverse signal setup #", "# Настройка заднего хода #"),	0 ), //
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Reverse.LowDuty,		((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("Off-reverse bright.", "Яркость без з.хода"), "%d%%" ),

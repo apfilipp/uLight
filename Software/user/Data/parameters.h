@@ -127,8 +127,9 @@ typedef struct
 			uint8_t LowBrakeDuty;
 			uint8_t HighBrakeDuty;
 			uint16_t LowBrakeVoltage;
-			uint8_t OnTime;
-			uint8_t OffTime;
+			uint8_t OnTicks;
+			uint8_t OffTicks;
+			uint8_t StrobCount;
 
 			enum
 			{
