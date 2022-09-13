@@ -129,6 +129,12 @@ typedef struct
 			uint16_t LowBrakeVoltage;
 			uint8_t OnTime;
 			uint8_t OffTime;
+
+			enum
+			{
+				Brake_Default,
+				Brake_WithBDimension
+			} Brake_Mode;
 		} Brake;
 
 		struct

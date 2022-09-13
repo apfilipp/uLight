@@ -21,7 +21,7 @@
 #define sDEBUG(string) string
 #endif
 
-const Version_t VersionControl = { __DATE__, sDEBUG("0.6.4af") };
+const Version_t VersionControl = { __DATE__, sDEBUG("0.6.5af-rc1") };
 
 typedef struct
 {

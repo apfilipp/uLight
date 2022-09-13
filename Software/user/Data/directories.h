@@ -118,6 +118,7 @@ const LCPS_Entry_t PD_Func[] =
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.LowBrakeVoltage,	((LCP_Uint32_t){0, volt_max, volt_step}),	LANG("On-brake voltage", "Напряжение руч. тормоза"), "%d V" ),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.OnTime,			((LCP_Decimal32_t){0, 10, 1, 1}),		LANG("Brake on-time", "Время вкл. стоп сигнала"), "%ssec" ),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.OffTime,			((LCP_Decimal32_t){0, 10, 1, 1}),		LANG("Brake off-time", "Время выкл. стоп сигнала"), "%ssec" ),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Brake.Brake_Mode,		((LCP_Enum_t){0, 2}),		LANG("Use back dimension", "Исп. зад. габарит"), LANG("Off\nON", "Выкл.\nВкл.")),
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("# Reverse signal setup #", "# Настройка заднего хода #"),	0 ), //
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Reverse.LowDuty,		((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("Off-reverse bright.", "Яркость без з.хода"), "%d%%" ),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Reverse.HighDuty,		((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("On-reverse bright.", "Яркость заднего хода"), "%d%%" ),

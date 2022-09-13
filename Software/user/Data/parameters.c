@@ -47,6 +47,7 @@ void LoadDefaultParameters(void)
 	Config.Func.Brake.LowBrakeVoltage = 1975;
 	Config.Func.Brake.OnTime = 0; //1 = 100 ms.
 	Config.Func.Brake.OffTime = 0;
+	Config.Func.Brake.Brake_Mode = Brake_WithBDimension;
 
 	Config.Func.Horn.HornButton = BtDisabled;
 
@@ -55,7 +56,7 @@ void LoadDefaultParameters(void)
 	Config.Func.Dimension.HighFDuty = 100;
 	Config.Func.Dimension.ButtonB = BtInt_2;
 	Config.Func.Dimension.LowBDuty = 0;
-	Config.Func.Dimension.HighBDuty = 25;
+	Config.Func.Dimension.HighBDuty = 10;
 
 	Config.Func.Turns.LeftButton = BtDisabled;
 	Config.Func.Turns.RightButton = BtDisabled;

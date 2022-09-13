@@ -51,12 +51,10 @@ typedef struct
 int utils_map_int(int x, int in_min, int in_max, int out_min, int out_max);
 uint8_t getButton(uint8_t button);
 //variables
-//const char functions[] = "OFF\nON\nBTTN\nTL\nTR\nBK";
 uint32_t logic_tick = 0;
 LC_Obj_Buttons_t can_buttons = { 0 };
 LC_Obj_Temperature_t can_contrTemp = { 0 };
 logicData_t logicData = { 0 };
-//int brightness = 0;
 
 void LogicTick(uint32_t dt)
 {
@@ -96,13 +94,6 @@ void LogicTick(uint32_t dt)
 
 			brake.BrakeV = ADC_ValuesF.VBrake;
 			LC_SendMessage(LevcanNodePtr, (void*) &brake_send, LC_Obj_BrakeV);
-
-			/*buttons.Brake = RD.Control.Embedd.Ports.Brake;
-			 buttons.Cruise = RD.Control.Embedd.Ports.Cruise;
-			 buttons.Speed = RD.Control.Embedd.Ports.Speed;
-			 buttons.Reverse = RD.Control.Embedd.Ports.Reverse;
-			 LC_SendMessage(LevcanNodePtr, (void*) &btns_send, LC_Obj_Buttons);*/
-
 		}
 		if (Config.InputsCfg.SendPorts && sent_data >= 20)
 		{
@@ -169,26 +160,13 @@ void LogicTick(uint32_t dt)
 
 			logicData.PWM_HighBeam = logicData.PWM_LowBeam;
 		}
-		//Brightness mode
-		/*switch (Config.InputsCfg.Brightness) {
-		 case Brightness_OFF:
-		 brightness=0;
-		 break;
-		 case Brightness_BeamLow:
-		 brightness = lbt;
-		 break;
-		 case Brightness_BeamHigh:
-		 brightness = hbt;
-		 break;
-		 }*/
-
 	}
 
+	uint8_t brake_signal = can_buttons.Brake || (Config.Func.Brake.LowBrakeVoltage > 0 && ADC_ValuesF.VBrake >= Config.Func.Brake.LowBrakeVoltage);
 	{ //Brake
 		static uint32_t brake_timer = 0;
 		static uint8_t state = 0;
 
-		uint8_t brake_signal = can_buttons.Brake || (Config.Func.Brake.LowBrakeVoltage > 0 && ADC_ValuesF.VBrake >= Config.Func.Brake.LowBrakeVoltage);
 		if (brake_signal)
 		{
 			brake_timer += dt;
@@ -240,7 +218,12 @@ void LogicTick(uint32_t dt)
 			logicData.PWM_DimensionF = Config.Func.Dimension.LowFDuty;
 
 		if (getButton(Config.Func.Dimension.ButtonB))
-			logicData.PWM_DimensionB = Config.Func.Dimension.HighBDuty;
+		{
+			if (Config.Func.Brake.Brake_Mode == Brake_WithBDimension && brake_signal)
+				logicData.PWM_DimensionB = logicData.PWM_Brake;
+			else
+				logicData.PWM_DimensionB = Config.Func.Dimension.HighBDuty;
+		}
 		else
 			logicData.PWM_DimensionB = Config.Func.Dimension.LowBDuty;
 	}
@@ -249,8 +232,8 @@ void LogicTick(uint32_t dt)
 		static uint32_t turn_timer = 0;
 		static uint8_t state = 0;
 		uint8_t any_button = getButton(Config.Func.Turns.LeftButton)
-				| getButton(Config.Func.Turns.RightButton)
-				| getButton(Config.Func.Turns.WarningButton);
+							| getButton(Config.Func.Turns.RightButton)
+							| getButton(Config.Func.Turns.WarningButton);
 		if (any_button)
 		{
 			turn_timer += dt;
