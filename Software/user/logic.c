@@ -65,77 +65,80 @@ void LogicTick(uint32_t dt)
 	{	//Control
 		static uint16_t sent_data = 0;
 		sent_data += dt;
-		if (Config.InputsCfg.SendControl && sent_data >= 20)
-		{
-			//50hz throttle and brake
-			static LC_Obj_ThrottleV_t throttle = { 0 };
-			static LC_Obj_BrakeV_t brake = { 0 };
 
-			const LC_ObjectRecord_t throttle_send =
-			{
-				.Address = &throttle,
-				.Size = sizeof(throttle),
-				.Attributes.TCP = 0,
-				.Attributes.Priority = LC_Priority_Mid,
-				.NodeID = LC_Broadcast_Address
-			};
-
-			const LC_ObjectRecord_t brake_send =
-			{
-				.Address = &brake,
-				.Size = sizeof(brake),
-				.Attributes.TCP = 0,
-				.Attributes.Priority = LC_Priority_Mid,
-				.NodeID = LC_Broadcast_Address
-			};
-
-			throttle.ThrottleV = ADC_ValuesF.VThrottle;
-			LC_SendMessage(LevcanNodePtr, (void*) &throttle_send, LC_Obj_ThrottleV);
-
-			brake.BrakeV = ADC_ValuesF.VBrake;
-			LC_SendMessage(LevcanNodePtr, (void*) &brake_send, LC_Obj_BrakeV);
-		}
-		if (Config.InputsCfg.SendPorts && sent_data >= 20)
-		{
-			static LC_Obj_Buttons_t buttons;
-			const LC_ObjectRecord_t btns_send =
-			{
-				.Address = &buttons,
-				.Size = sizeof(buttons),
-				.Attributes.TCP = 0,
-				.Attributes.Priority = LC_Priority_Mid,
-				.NodeID = LC_Broadcast_Address
-			};
-
-			memset(&buttons, 0, sizeof(buttons));
-
-			if (Config.InputsCfg.SendPorts == 1)
-			{
-				buttons.ExButton1 = RD.Buttons.Int1;
-				buttons.ExButton2 = RD.Buttons.Int2;
-				buttons.ExButton3 = RD.Buttons.Int3;
-				buttons.ExButton4 = RD.Buttons.Int4;
-				buttons.ExButton5 = RD.Buttons.Int5;
-				buttons.ExButton6 = RD.Buttons.Int6;
-				buttons.ExButton7 = RD.Buttons.Int7_T1;
-				buttons.ExButton8 = RD.Buttons.Int8_T2;
-
-			}
-			else if (Config.InputsCfg.SendPorts == 2)
-			{
-				buttons.ExButton9 = RD.Buttons.Int1;
-				buttons.ExButton10 = RD.Buttons.Int2;
-				buttons.ExButton11 = RD.Buttons.Int3;
-				buttons.ExButton12 = RD.Buttons.Int4;
-				buttons.ExButton13 = RD.Buttons.Int5;
-				buttons.ExButton14 = RD.Buttons.Int6;
-				buttons.ExButton15 = RD.Buttons.Int7_T1;
-				buttons.ExButton16 = RD.Buttons.Int8_T2;
-			}
-			LC_SendMessage(LevcanNodePtr, (void*) &btns_send, LC_Obj_Buttons);
-		}
 		if (sent_data >= 20)
+		{
+			if (Config.InputsCfg.SendControl)
+			{
+				//50hz throttle and brake
+				static LC_Obj_ThrottleV_t throttle = { 0 };
+				static LC_Obj_BrakeV_t brake = { 0 };
+
+				const LC_ObjectRecord_t throttle_send =
+				{
+					.Address = &throttle,
+					.Size = sizeof(throttle),
+					.Attributes.TCP = 0,
+					.Attributes.Priority = LC_Priority_Mid,
+					.NodeID = LC_Broadcast_Address
+				};
+
+				const LC_ObjectRecord_t brake_send =
+				{
+					.Address = &brake,
+					.Size = sizeof(brake),
+					.Attributes.TCP = 0,
+					.Attributes.Priority = LC_Priority_Mid,
+					.NodeID = LC_Broadcast_Address
+				};
+
+				throttle.ThrottleV = ADC_ValuesF.VThrottle;
+				LC_SendMessage(LevcanNodePtr, (void*) &throttle_send, LC_Obj_ThrottleV);
+
+				brake.BrakeV = ADC_ValuesF.VBrake;
+				LC_SendMessage(LevcanNodePtr, (void*) &brake_send, LC_Obj_BrakeV);
+			}
+
+			if (Config.InputsCfg.SendPorts)
+			{
+				static LC_Obj_Buttons_t buttons;
+				const LC_ObjectRecord_t btns_send =
+				{
+					.Address = &buttons,
+					.Size = sizeof(buttons),
+					.Attributes.TCP = 0,
+					.Attributes.Priority = LC_Priority_Mid,
+					.NodeID = LC_Broadcast_Address
+				};
+
+				memset(&buttons, 0, sizeof(buttons));
+
+				if (Config.InputsCfg.SendPorts == 1)
+				{
+					buttons.ExButton1 = RD.Buttons.Int1;
+					buttons.ExButton2 = RD.Buttons.Int2;
+					buttons.ExButton3 = RD.Buttons.Int3;
+					buttons.ExButton4 = RD.Buttons.Int4;
+					buttons.ExButton5 = RD.Buttons.Int5;
+					buttons.ExButton6 = RD.Buttons.Int6;
+					buttons.ExButton7 = RD.Buttons.Int7_T1;
+					buttons.ExButton8 = RD.Buttons.Int8_T2;
+				}
+				else if (Config.InputsCfg.SendPorts == 2)
+				{
+					buttons.ExButton9 = RD.Buttons.Int1;
+					buttons.ExButton10 = RD.Buttons.Int2;
+					buttons.ExButton11 = RD.Buttons.Int3;
+					buttons.ExButton12 = RD.Buttons.Int4;
+					buttons.ExButton13 = RD.Buttons.Int5;
+					buttons.ExButton14 = RD.Buttons.Int6;
+					buttons.ExButton15 = RD.Buttons.Int7_T1;
+					buttons.ExButton16 = RD.Buttons.Int8_T2;
+				}
+				LC_SendMessage(LevcanNodePtr, (void*) &btns_send, LC_Obj_Buttons);
+			}
 			sent_data = 0;
+		}
 	}
 	{	//Beam function
 		int lbt = getButton(Config.Func.Beam.LowBeamButton);
@@ -162,7 +165,7 @@ void LogicTick(uint32_t dt)
 		}
 	}
 
-	uint8_t brake_signal = can_buttons.Brake || (Config.Func.Brake.LowBrakeVoltage > 0 && ADC_ValuesF.VBrake >= Config.Func.Brake.LowBrakeVoltage);
+	uint8_t brake_signal = can_buttons.Brake || ((Config.Func.Brake.LowBrakeVoltage > 0) && (Config.Func.Brake.LowBrakeVoltage < ADC_ValuesF.VBrake));
 	{ //Brake
 		static uint32_t brake_timer = 0;
 		static uint8_t brake_state = 0;
@@ -170,7 +173,7 @@ void LogicTick(uint32_t dt)
 
 		if (brake_signal)
 		{
-			if (Config.Func.Brake.StrobCount > 0 && Config.Func.Brake.StrobCount >= strob_count)
+			if ((Config.Func.Brake.StrobCount > 0) && (Config.Func.Brake.StrobCount >= strob_count))
 			{
 				uint32_t max_time = 0;
 

@@ -219,10 +219,6 @@ typedef struct
 		uint16_t ThrottleMax;
 		uint16_t BrakeMin;
 		uint16_t BrakeMax;
-		/*enum
-		{
-			Brightness_OFF, Brightness_BeamLow, Brightness_BeamHigh
-		} Brightness;*/
 	} InputsCfg;
 
 } ConfigStruct_t;

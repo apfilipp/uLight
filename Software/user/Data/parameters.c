@@ -73,7 +73,6 @@ void LoadDefaultParameters(void)
 	Config.InputsCfg.SendPorts = 0;
 	Config.InputsCfg.T1_Threshold = 50;
 	Config.InputsCfg.T2_Threshold = 50;
-	//Config.InputsCfg.Brightness = Brightness_BeamHigh;
 
 	for (int i = 0; i < TsensFunc_MAX; i++)
 	{
