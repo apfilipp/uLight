@@ -65,7 +65,6 @@ typedef enum
 {
 	Func_Off,
 	Func_On,
-	Func_Button,
 	Func_TurnLeft,
 	Func_TurnRight,
 	Func_Brake,
@@ -79,6 +78,10 @@ typedef enum
 	Func_ContrT,
 	Func_T1,
 	Func_T2,
+	Func_VBtn1,
+	Func_VBtn2,
+	Func_VBtn3,
+	Func_VBtn4,
 	Func_MAX,
 } Function_t;
 
@@ -178,6 +181,14 @@ typedef struct
 			uint8_t OutMax[TsensFunc_MAX];
 		} FanConrol;
 
+		struct
+		{
+			Buttons_t VButton1;
+			Buttons_t VButton2;
+			Buttons_t VButton3;
+			Buttons_t VButton4;
+		} VirtButtons;
+
 		uint8_t AloneCANshutdown;
 	} Func;
 
@@ -215,6 +226,7 @@ typedef struct
 
 		uint8_t SendControl;
 		uint8_t SendPorts;
+		uint8_t SendTemperature;
 		uint16_t ThrottleMin;
 		uint16_t ThrottleMax;
 		uint16_t BrakeMin;

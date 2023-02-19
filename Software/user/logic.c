@@ -22,6 +22,7 @@ typedef struct
 		int16_t MotorT;
 		int16_t ContrT;
 	} Inputs;
+
 	union
 	{
 		uint8_t PWMFunctionOutputs[Func_MAX];
@@ -29,7 +30,6 @@ typedef struct
 		{
 			uint8_t PWM_Off;
 			uint8_t PWM_On;
-			uint8_t PWM_Button;
 			uint8_t PWM_TurnLeft;
 			uint8_t PWM_TurnRight;
 			uint8_t PWM_Brake;
@@ -43,6 +43,10 @@ typedef struct
 			uint8_t PWM_ContrT;
 			uint8_t PWM_T1;
 			uint8_t PWM_T2;
+			uint8_t PWM_VButton1;
+			uint8_t PWM_VButton2;
+			uint8_t PWM_VButton3;
+			uint8_t PWM_VButton4;
 		};
 	};
 } logicData_t;
@@ -50,6 +54,7 @@ typedef struct
 //local functions
 int utils_map_int(int x, int in_min, int in_max, int out_min, int out_max);
 uint8_t getButton(uint8_t button);
+
 //variables
 uint32_t logic_tick = 0;
 LC_Obj_Buttons_t can_buttons = { 0 };
@@ -61,6 +66,10 @@ void LogicTick(uint32_t dt)
 	logic_tick += dt;
 	logicData.PWM_Off = 0;
 	logicData.PWM_On = 100;
+	//logicData.PWM_VButton1 = 0;
+	//logicData.PWM_VButton2 = 0;
+	//logicData.PWM_VButton3 = 0;
+	//logicData.PWM_VButton4 = 0;
 	int shutdown = 0;
 	{	//Control
 		static uint16_t sent_data = 0;
@@ -136,6 +145,24 @@ void LogicTick(uint32_t dt)
 					buttons.ExButton16 = RD.Buttons.Int8_T2;
 				}
 				LC_SendMessage(LevcanNodePtr, (void*) &btns_send, LC_Obj_Buttons);
+			}
+
+			if (Config.InputsCfg.SendTemperature)
+			{
+				static LC_Obj_Temperature_t temp = { 0 };
+
+				const LC_ObjectRecord_t temp_send =
+				{
+						.Address = &temp,
+						.Size = sizeof(temp),
+						.Attributes.TCP = 0,
+						.Attributes.Priority = LC_Priority_Mid,
+						.NodeID = LC_Broadcast_Address
+				};
+
+				temp.ExtraTemp1 = ADC_ValuesF.T1;
+				temp.ExtraTemp2 = ADC_ValuesF.T2;
+				LC_SendMessage(LevcanNodePtr, (void*)&temp_send, LC_Obj_Temperature);
 			}
 			sent_data = 0;
 		}
@@ -230,7 +257,7 @@ void LogicTick(uint32_t dt)
 		if (getButton(Config.Func.Dimension.ButtonB))
 		{
 			if (Config.Func.Brake.Brake_Mode == Brake_WithBDimension && brake_signal)
-				logicData.PWM_DimensionB = logicData.PWM_Brake;
+				logicData.PWM_DimensionB = Config.Func.Brake.HighBrakeDuty;
 			else
 				logicData.PWM_DimensionB = Config.Func.Dimension.HighBDuty;
 		}
@@ -315,6 +342,25 @@ void LogicTick(uint32_t dt)
 		}
 	}
 
+	{//Virtual Buttons
+		if (getButton(Config.Func.VirtButtons.VButton1))
+			logicData.PWM_VButton1 = 100;
+		else
+			logicData.PWM_VButton1 = 0;
+		if (getButton(Config.Func.VirtButtons.VButton2))
+			logicData.PWM_VButton2 = 100;
+		else
+			logicData.PWM_VButton2 = 0;
+		if (getButton(Config.Func.VirtButtons.VButton3))
+			logicData.PWM_VButton3 = 100;
+		else
+			logicData.PWM_VButton3 = 0;
+		if (getButton(Config.Func.VirtButtons.VButton4))
+			logicData.PWM_VButton4 = 100;
+		else
+			logicData.PWM_VButton4 = 0;
+	}
+
 	if (Config.Func.AloneCANshutdown)
 	{
 		uint16_t pos = 0;
@@ -340,14 +386,7 @@ void LogicTick(uint32_t dt)
 		else
 		{
 			uint8_t function = Config.PWMouts.PWMoutArray[i];
-			if (function == 2)
-			{
-				//button logic here
-				PWMsetOutput(i, logicData.PWMFunctionOutputs[function]);
-			}
-			else
-				//classic function output
-				PWMsetOutput(i, logicData.PWMFunctionOutputs[function]);
+			PWMsetOutput(i, logicData.PWMFunctionOutputs[function]);
 		}
 	}
 }

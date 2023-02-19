@@ -71,6 +71,7 @@ void LoadDefaultParameters(void)
 	Config.InputsCfg.ThrottleMin = 1000;
 	Config.InputsCfg.SendControl = 0;
 	Config.InputsCfg.SendPorts = 0;
+	Config.InputsCfg.SendTemperature = 0;
 	Config.InputsCfg.T1_Threshold = 50;
 	Config.InputsCfg.T2_Threshold = 50;
 

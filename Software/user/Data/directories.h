@@ -91,8 +91,9 @@ const LCPS_Entry_t PD_InputsConf[] =
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.InputsCfg.T2_Threshold,			((LCP_Uint32_t){0, 250, 1}),	LANG("T2 Threshold (port I8)", "T2 Порог (порт I8)"), "%d°C"),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.InputsCfg.T2_ThrMode, 			((LCP_Enum_t){0, 2}),			LANG("T2 Thr. mode", "T2 Режим порога"), LANG("Normal\nInverted","Норм.\nИнверт.")),
 
-	pbool(LCP_AccessLvl_Any, 	LCP_Normal,Config.InputsCfg.SendControl, 												LANG("CAN-Control", "CAN-Управление"), 0),
-	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.InputsCfg.SendPorts, 			((LCP_Enum_t){0, 3}),			LANG("CAN-Ports", "CAN-Порты"), "OFF\nCAN 1-8\nCAN 9-16"  ),
+	pbool(LCP_AccessLvl_Any, 	LCP_Normal,		Config.InputsCfg.SendControl, 											LANG("CAN-Control", "CAN-Управление"), 0),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.InputsCfg.SendPorts, 			((LCP_Enum_t){0, 3}),			LANG("CAN-Ports", "CAN-Порты"), "OFF\nCAN 1-8\nCAN 9-16" ),
+	pbool(LCP_AccessLvl_Any, 	LCP_Normal,		Config.InputsCfg.SendTemperature, 										LANG("CAN-Temperature", "CAN-Температура"), 0),
 };
 
 #define dutymax   100
@@ -133,11 +134,11 @@ const LCPS_Entry_t PD_Func[] =
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("# Horn setup #", "# Настройка гудка #"),	0 ), //
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Horn.HornButton, 		((LCP_Enum_t){0, BtMax}),				LANG("Horn switch", "Кнопка гудка"), buttons ),
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("# Dimension front setup #", "# Настройка перед. габ. огней #"),	0 ), //
-	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Dimension.ButtonF, 		((LCP_Enum_t){0, BtMax}),				LANG("Dimension switch", "Кнопка габ. огней"), buttons ),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Dimension.ButtonF, 		((LCP_Enum_t){0, BtMax}),				LANG("Switch", "Кнопка"), buttons ),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Dimension.LowFDuty,		((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("Low brightness", "Яркость выкл. габ. огней "), "%d%%" ),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Dimension.HighFDuty,	((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("High brightness", "Яркость вкл. габ. огней"), "%d%%" ),
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("# Dimension back setup #", "# Настройка зад. габ. огней #"),	0 ), //
-	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Dimension.ButtonB, 		((LCP_Enum_t){0, BtMax}),				LANG("Dimension switch", "Кнопка габ. огней"), buttons ),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Dimension.ButtonB, 		((LCP_Enum_t){0, BtMax}),				LANG("Switch", "Кнопка"), buttons ),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Dimension.LowBDuty,		((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("Low brightness", "Яркость выкл. габ. огней "), "%d%%" ),
 	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.Dimension.HighBDuty,	((LCP_Uint32_t){0,dutymax,dutystep}),	LANG("High brightness", "Яркость вкл. габ. огней"), "%d%%" ),
 	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("# Fan control #", "# Настройка вентиляторов #"),	0 ), //
@@ -145,6 +146,11 @@ const LCPS_Entry_t PD_Func[] =
 	folder(LCP_AccessLvl_Any, 	Dir_TsFunctions2, 0, 0  ),
 	folder(LCP_AccessLvl_Any, 	Dir_TsFunctions3, 0, 0  ),
 	folder(LCP_AccessLvl_Any, 	Dir_TsFunctions4, 0, 0  ),
+	label(LCP_AccessLvl_Any, 	LCP_ReadOnly,		LANG("# Virtual buttons #", "# Виртуальные кнопки #"),	0 ), //
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.VirtButtons.VButton1, 		((LCP_Enum_t){0, BtMax}),				LANG("Button 1", "Кнопка 1"), buttons ),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.VirtButtons.VButton2, 		((LCP_Enum_t){0, BtMax}),				LANG("Button 2", "Кнопка 2"), buttons ),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.VirtButtons.VButton3, 		((LCP_Enum_t){0, BtMax}),				LANG("Button 3", "Кнопка 3"), buttons ),
+	pstd(LCP_AccessLvl_Any, 	LCP_Normal,		Config.Func.VirtButtons.VButton4, 		((LCP_Enum_t){0, BtMax}),				LANG("Button 4", "Кнопка 4"), buttons ),
 };
 
 const LCPS_Entry_t PD_TsFunctions[] =
@@ -156,7 +162,7 @@ const LCPS_Entry_t PD_TsFunctions[] =
 };
 
 const char freqs[] = "100Hz\n500Hz\n1kHz\n5kHz\n10kHz\n24kHz(FAN)";
-const char functions[] = LANG("OFF\nON\nBttn\nTurnL\nTurnR\nBrk\nLBeam\nHBeam\nRev\nHorn\nDimsF\nDimsB\nTMot\nTCont\nT1\nT2", "Откл\nВкл\nКноп\nПовЛ\nПовП\nТорм\nБлижС\nДалС\nЗ.ход\nГудок\nГабП\nГабЗ\nTМот\nTКонт\nT1\nT2");
+const char functions[] = LANG("OFF\nON\nTurnL\nTurnR\nBrk\nLBeam\nHBeam\nRev\nHorn\nDimsF\nDimsB\nTMot\nTCont\nT1\nT2\nVBtn1\nVBtn2\nVBtn3\nVBtn4", "Откл\nВкл\nПовЛ\nПовП\nТорм\nБлижС\nДалС\nЗ.ход\nГудок\nГабП\nГабЗ\nTМот\nTКонт\nT1\nT2\nВКноп1\nВКноп2\nВКноп3\nВКноп4");
 
 const LCPS_Entry_t PD_Outputs[] =
 {
