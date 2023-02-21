@@ -77,7 +77,7 @@ const LCPS_Entry_t PD_Inputs[] =
 	pbool(LCP_AccessLvl_Any, 	LCP_ROLiveUpd,		RD.Buttons.Int6, 		LANG("Input I6", "¬ход I6"), 0 ),
 };
 
-const char tsensors[] = "Off\nNTC10K3950\nNTC10K3380";
+const char tsensors[] = "Off\nNTC10K3950\nNTC10K3380\nKTY84/130";
 
 const LCPS_Entry_t PD_InputsConf[] =
 {

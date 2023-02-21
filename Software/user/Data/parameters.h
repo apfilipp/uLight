@@ -87,7 +87,7 @@ typedef enum
 
 typedef enum
 {
-	Tsensor_OFF, Tsensor_NTC10K3950, Tsensor_NTC10K3380, Tsensor_MAX
+	Tsensor_OFF, Tsensor_NTC10K3950, Tsensor_NTC10K3380, Tsensor_KTY84_130, Tsensor_MAX
 } Tsensor_t;
 
 typedef enum
